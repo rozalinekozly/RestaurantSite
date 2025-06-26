@@ -2,7 +2,7 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background-image: url('img16.jpg'); /* or 'images/img1.jpg' if it's inside an images folder */
+  background-image: url('bg1.jpg'); /* or 'images/img1.jpg' if it's inside an images folder */
   background-size: cover;
   background-position: center;
   opacity: 0.9;
