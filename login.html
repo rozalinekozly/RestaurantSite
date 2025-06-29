@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body class="relative font-serif bg-cover bg-center" style="background-image: url('bg1.jpg');">
+
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
 
@@ -57,42 +56,40 @@
   </div>
 </footer>
 
-<!-- Script -->
-<script>
-  const supabaseUrl = 'https://ldignxlbttqoqcvoycbj.supabase.co';
-  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII';
-  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+<!-- Supabase and Login Script -->
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-  window.onload = () => {
-    document.getElementById('loginBtn').addEventListener('click', async () => {
-      const username = document.getElementById('username').value.trim();
-      const password = document.getElementById('password').value.trim();
+const supabaseUrl = 'https://ldignxlbttqoqcvoycbj.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII';
+const supabase = createClient(supabaseUrl, supabaseKey);
 
-      if (!username || !password) {
-        alert("Please fill in both fields.");
-        return;
-      }
+async function loginUser() {
+  const username = document.getElementById('username').value.trim();
+  const password = document.getElementById('password').value.trim();
 
-      try {
-        const { data, error } = await supabase
-          .from('users_restaurant')
-          .select('*')
-          .eq('username', username)
-          .eq('password', password)
-          .single();
+  if (!username || !password) {
+    alert("Please fill in both fields.");
+    return;
+  }
 
-        if (error || !data) {
-          alert("Username or password is incorrect.");
-        } else {
-          localStorage.setItem('user_name', data.name);
-          window.location.href = 'index.html';
-        }
-      } catch (err) {
-        console.error(err);
-        alert("An error occurred. Please try again.");
-      }
-    });
-  };
+  const { data, error } = await supabase
+    .from('users_restaurant')
+    .select('*')
+    .eq('username', username)
+    .eq('password', password)
+    .single();
+
+  if (error || !data) {
+    console.error("Supabase error:", error);
+    alert("Username or password is incorrect.");
+  } else {
+    localStorage.setItem('user_name', data.name);
+    window.location.href = 'index.html';
+  }
+}
+
+document.getElementById('loginBtn').addEventListener('click', loginUser);
 </script>
 
 </body>
