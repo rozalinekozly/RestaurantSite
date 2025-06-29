@@ -5,13 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Rosmarino | Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-  const name = localStorage.getItem('user_name');
-  if (name) {
-    document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
-  }
-</script>
 </head>
+
 <body class="relative font-serif bg-cover bg-center" style="background-image: url('bg1.jpg');">
 
 <!-- Background Blur Overlay -->
@@ -25,11 +20,13 @@
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
     <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
-    <section class="relative z-10 text-center mt-4">
-  <h2 id="greeting" class="text-xl text-[#7c5a3c]"></h2>
-</section>
   </div>
 </nav>
+
+<!-- Greeting -->
+<section class="relative z-10 text-center mt-4">
+  <h2 id="greeting" class="text-xl text-[#7c5a3c]"></h2>
+</section>
 
 <!-- Hero Section -->
 <section class="relative z-10 text-center py-12 px-4">
@@ -64,30 +61,30 @@
     <p class="text-md font-bold text-[#7c5a3c] mt-1">₪189</p>
   </div>
 
-  <!-- Reserve a Table (Background Image Card) -->
+  <!-- Reserve a Table -->
   <div class="relative rounded shadow-lg overflow-hidden">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('reserveTable1.jpg');"></div>
     <div class="absolute inset-0 bg-black/40"></div>
     <div class="relative z-10 p-4 flex flex-col items-center text-center text-[#e7cba9]">
-      <h3 class="text-lg font-semibold text-[#e7cba9]">Reserve a Table</h3>
+      <h3 class="text-lg font-semibold">Reserve a Table</h3>
       <p class="text-sm">Book your cozy spot in our warm atmosphere with ease online.</p>
       <button class="mt-2 px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Reserve</button>
     </div>
   </div>
 
-  <!-- Home Delivery (Background Image Card) -->
+  <!-- Home Delivery -->
   <div class="relative rounded shadow-lg overflow-hidden">
     <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('homeDelivary1.jpg');"></div>
     <div class="absolute inset-0 bg-black/40"></div>
     <div class="relative z-10 p-4 flex flex-col items-center text-center text-[#e7cba9]">
-      <h3 class="text-lg font-semibold text-[#e7cba9]">Home Delivery</h3>
+      <h3 class="text-lg font-semibold">Home Delivery</h3>
       <p class="text-sm">Enjoy Rosmarino’s taste from home with our efficient delivery service.</p>
       <button class="mt-2 px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#2D4F2B] transition">Order Now</button>
     </div>
   </div>
 </section>
 
-<!-- Join Membership (Full Width) -->
+<!-- Join Membership -->
 <section class="relative z-10 max-w-6xl mx-auto py-8 px-4">
   <div class="bg-white/80 rounded shadow-lg p-6 text-center">
     <h3 class="text-xl md:text-2xl font-semibold text-[#4b3d2d] mb-2">Join Our Membership</h3>
@@ -103,6 +100,16 @@
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
+
+<!-- Greeting Script -->
+<script>
+  window.onload = function() {
+    const name = localStorage.getItem('user_name');
+    if (name) {
+      document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
+    }
+  }
+</script>
 
 </body>
 </html>
