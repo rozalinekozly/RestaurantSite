@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="relative font-serif bg-cover bg-center" style="background-image: url('bg1.jpg');">
+
+<body class="relative font-serif bg-cover bg-center min-h-screen flex flex-col" style="background-image: url('bg1.jpg');">
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
@@ -18,43 +19,47 @@
     <a href="login.html" class="text-sm hover:underline">Login</a>
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
-    <a href="guestOpinion.html" class="text-sm font-bold underline">Guests Opinion</a>
-
+    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
   </div>
-  <button class="text-sm hover:underline mt-2 md:mt-0">🌙 Night/Day</button>
 </nav>
 
 <!-- Sign Up Form -->
-<section class="relative z-10 flex items-center justify-center min-h-[80vh] px-4">
-  <form class="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col gap-4">
+<section class="relative z-10 flex items-center justify-center flex-grow px-4">
+  <form id="signupForm" class="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col gap-4 mt-10 mb-10">
     <h2 class="text-2xl font-semibold text-center text-[#4b3d2d]">Sign Up</h2>
 
     <div class="flex flex-col gap-2">
       <label for="fullname" class="text-sm font-medium text-[#4b3d2d]">Full Name</label>
-      <input type="text" id="fullname" name="fullname" placeholder="Your full name"
+      <input type="text" id="fullname" placeholder="Your full name"
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
     </div>
 
     <div class="flex flex-col gap-2">
       <label for="phone" class="text-sm font-medium text-[#4b3d2d]">Phone Number</label>
-      <input type="tel" id="phone" name="phone" placeholder="Your phone number"
+      <input type="tel" id="phone" placeholder="Your phone number"
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
     </div>
 
     <div class="flex flex-col gap-2">
       <label for="email" class="text-sm font-medium text-[#4b3d2d]">E-mail</label>
-      <input type="email" id="email" name="email" placeholder="Your email address"
+      <input type="email" id="email" placeholder="Your email address"
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
     </div>
 
     <div class="flex flex-col gap-2">
       <label for="username" class="text-sm font-medium text-[#4b3d2d]">Username</label>
-      <input type="text" id="username" name="username" placeholder="Choose a username"
+      <input type="text" id="username" placeholder="Choose a username"
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
     </div>
 
     <div class="flex flex-col gap-2">
-      <span class="text-sm font-medium text-[#4b3d2d]">Gender</span>
+      <label for="password" class="text-sm font-medium text-[#4b3d2d]">Password</label>
+      <input type="password" id="password" placeholder="Choose a password"
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <span id="genderLabel" class="text-sm font-medium text-[#4b3d2d]">Gender</span>
       <div class="flex gap-4">
         <label class="flex items-center gap-1">
           <input type="radio" name="gender" value="male" class="accent-[#8A784E]">
@@ -78,13 +83,95 @@
 </section>
 
 <!-- Footer -->
-<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4">
+<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4 mt-auto">
   <div class="flex flex-wrap justify-center gap-6">
     <a href="#" class="hover:underline">Follow us</a>
-    <a href="#" class="hover:underline">Our location</a>
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
+
+<!-- Supabase Script -->
+<script type="module">
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+const supabaseUrl = 'https://ldignxlbttqoqcvoycbj.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII';
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  console.log("Form submitted");
+
+  const fullname = document.getElementById('fullname');
+  const phone = document.getElementById('phone');
+  const email = document.getElementById('email');
+  const username = document.getElementById('username');
+  const password = document.getElementById('password');
+  const genderLabel = document.getElementById('genderLabel');
+  const genderEls = document.querySelectorAll('input[name="gender"]');
+  const gender = [...genderEls].find(r => r.checked)?.value;
+
+  let valid = true;
+
+  // Reset styles
+  [fullname, phone, email, username, password].forEach(input => {
+    input.classList.remove('border-red-500');
+  });
+  genderLabel.classList.remove('text-red-500');
+
+  if (!fullname.value.trim()) { fullname.classList.add('border-red-500'); valid = false; }
+  if (!phone.value.trim()) { phone.classList.add('border-red-500'); valid = false; }
+  if (!email.value.trim() || !email.value.includes('@')) { email.classList.add('border-red-500'); valid = false; }
+  if (!username.value.trim()) { username.classList.add('border-red-500'); valid = false; }
+  if (!password.value.trim()) { password.classList.add('border-red-500'); valid = false; }
+  if (!gender) { genderLabel.classList.add('text-red-500'); valid = false; }
+
+  if (!valid) {
+    alert('Please correct the highlighted fields.');
+    return;
+  }
+
+  try {
+    // Check if username exists
+    const { data: existingUser, error: fetchError } = await supabase
+      .from('users_restaurant')
+      .select('username')
+      .eq('username', username.value.trim());
+
+    if (fetchError) throw fetchError;
+
+    if (existingUser && existingUser.length > 0) {
+      username.classList.add('border-red-500');
+      alert('Username is already taken.');
+      return;
+    }
+
+    // Insert user
+    const { error: insertError } = await supabase
+      .from('users_restaurant')
+      .insert([
+        {
+          name: fullname.value.trim(),
+          phone: phone.value.trim(),
+          email: email.value.trim(),
+          username: username.value.trim(),
+          password: password.value.trim(),
+          gender: gender
+        }
+      ]);
+
+    if (insertError) throw insertError;
+
+    // Save name and redirect
+    localStorage.setItem('user_name', fullname.value.trim());
+    alert('Signup successful! Redirecting...');
+    window.location.href = 'index.html';
+  } catch (error) {
+    console.error('Supabase error:', error);
+    alert('An error occurred. Please try again.');
+  }
+});
+</script>
 
 </body>
 </html>
