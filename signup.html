@@ -5,16 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+    const supabaseUrl = 'https://ldignxlbttqoqcvoycbj.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII';
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('signup-form');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const fullname = document.getElementById('fullname');
+        const phone = document.getElementById('phone');
+        const email = document.getElementById('email');
+        const username = document.getElementById('username');
+        const password = document.getElementById('password');
+        const genderRadios = document.getElementsByName('gender');
+
+        let gender = '';
+        genderRadios.forEach(radio => { if (radio.checked) gender = radio.value; });
+
+        // Reset field borders
+        [fullname, phone, email, username, password].forEach(field => field.classList.remove('border-red-500'));
+        document.getElementById('gender-label').classList.remove('text-red-500');
+
+        let hasError = false;
+
+        if (!fullname.value.trim()) { fullname.classList.add('border-red-500'); hasError = true; }
+        if (!phone.value.trim() || isNaN(phone.value.trim())) { phone.classList.add('border-red-500'); hasError = true; }
+        if (!email.value.trim() || !/^\S+@\S+\.\S+$/.test(email.value.trim())) { email.classList.add('border-red-500'); hasError = true; }
+        if (!username.value.trim()) { username.classList.add('border-red-500'); hasError = true; }
+        if (!password.value.trim()) { password.classList.add('border-red-500'); hasError = true; }
+        if (!gender) { document.getElementById('gender-label').classList.add('text-red-500'); hasError = true; }
+
+        if (hasError) {
+          alert('Please correct highlighted fields.');
+          return;
+        }
+
+        try {
+          // Check for duplicate username
+          const { data: existingUser, error: fetchError } = await supabase
+            .from('users_restaurant')
+            .select('*')
+            .eq('username', username.value.trim());
+
+          if (existingUser && existingUser.length > 0) {
+            alert('Username already exists. Please choose a different username.');
+            username.classList.add('border-red-500');
+            return;
+          }
+
+          const { error: insertError } = await supabase
+            .from('users_restaurant')
+            .insert([
+              {
+                name: fullname.value.trim(),
+                phone: parseInt(phone.value.trim()),
+                email: email.value.trim(),
+                username: username.value.trim(),
+                password: password.value.trim(),
+                gender: gender
+              }
+            ]);
+
+          if (insertError) {
+            console.error('Supabase insert error:', insertError);
+            alert('An error occurred: ' + insertError.message);
+            return;
+          }
+
+          // Save name to localStorage for greeting
+          localStorage.setItem('user_name', fullname.value.trim());
+
+          // Redirect to home
+          window.location.href = 'index.html';
+        } catch (error) {
+          console.error('Error during signup:', error);
+          alert('An error occurred. Please try again.');
+        }
+      });
+    });
+  </script>
 </head>
 
+<<<<<<< HEAD
 <body class="relative font-serif bg-cover bg-center min-h-screen flex flex-col" style="background-image: url('bg1.jpg');">
+=======
+<body class="relative font-serif bg-cover bg-center" style="background-image: url('bg1.jpg');">
+>>>>>>> 6bcabb79fe372841981da21996553cbf6c84754c
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
 
 <!-- Navbar -->
 <nav class="relative z-10 flex justify-between items-center bg-white/80 shadow px-4 py-3">
+<<<<<<< HEAD
   <div class="flex gap-3 flex-wrap items-center">
+=======
+  <div class="flex gap-3">
+>>>>>>> 6bcabb79fe372841981da21996553cbf6c84754c
     <a href="index.html" class="text-sm hover:underline">Home</a>
     <a href="login.html" class="text-sm hover:underline">Login</a>
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
@@ -24,36 +116,67 @@
 </nav>
 
 <!-- Sign Up Form -->
+<<<<<<< HEAD
 <main class="relative z-10 flex-grow flex items-center justify-center px-4">
   <form id="signupForm" class="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col gap-4 mt-8 mb-8">
+=======
+<section class="relative z-10 flex items-center justify-center min-h-[80vh] px-4">
+  <form id="signup-form" class="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col gap-4">
+>>>>>>> 6bcabb79fe372841981da21996553cbf6c84754c
     <h2 class="text-2xl font-semibold text-center text-[#4b3d2d]">Sign Up</h2>
 
     <div class="flex flex-col gap-1">
       <label for="fullname" class="text-sm font-medium text-[#4b3d2d]">Full Name</label>
       <input type="text" id="fullname" placeholder="Your full name"
+<<<<<<< HEAD
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none">
+=======
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+>>>>>>> 6bcabb79fe372841981da21996553cbf6c84754c
     </div>
 
     <div class="flex flex-col gap-1">
       <label for="phone" class="text-sm font-medium text-[#4b3d2d]">Phone Number</label>
       <input type="tel" id="phone" placeholder="Your phone number"
+<<<<<<< HEAD
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none">
+=======
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+>>>>>>> 6bcabb79fe372841981da21996553cbf6c84754c
     </div>
 
     <div class="flex flex-col gap-1">
       <label for="email" class="text-sm font-medium text-[#4b3d2d]">E-mail</label>
       <input type="email" id="email" placeholder="Your email address"
+<<<<<<< HEAD
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none">
+=======
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+>>>>>>> 6bcabb79fe372841981da21996553cbf6c84754c
     </div>
 
     <div class="flex flex-col gap-1">
       <label for="username" class="text-sm font-medium text-[#4b3d2d]">Username</label>
       <input type="text" id="username" placeholder="Choose a username"
+<<<<<<< HEAD
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none">
     </div>
 
     <div class="flex flex-col gap-1">
       <span class="text-sm font-medium text-[#4b3d2d]">Gender</span>
+=======
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="password" class="text-sm font-medium text-[#4b3d2d]">Password</label>
+      <input type="password" id="password" placeholder="Choose a password"
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <span id="gender-label" class="text-sm font-medium text-[#4b3d2d]">Gender</span>
+>>>>>>> 6bcabb79fe372841981da21996553cbf6c84754c
       <div class="flex gap-4">
         <label class="flex items-center gap-1">
           <input type="radio" name="gender" value="male" class="accent-[#8A784E]">
