@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Main Course | Rosmarino</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="relative font-serif bg-cover bg-center" style="background-image: url('bg1.jpg');">
+
+<!-- Background Blur Overlay -->
+<div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
+
+<!-- Navbar -->
+<nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
+  <div class="flex gap-3 flex-wrap items-center">
+    <a href="index.html" class="text-sm hover:underline">Home</a>
+    <a href="login.html" class="text-sm hover:underline">Login</a>
+    <a href="menu.html" class="text-sm hover:underline">Menu</a>
+    <a href="feed.html" class="text-sm hover:underline">Feed</a>
+   <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
+    
+
+  </div>
+  <button class="text-sm hover:underline mt-2 md:mt-0">🌙 Night/Day</button>
+</nav>
+
+<!-- Category Navigation -->
+<section class="relative z-10 max-w-6xl mx-auto py-8 px-4 text-center">
+  <div class="flex flex-wrap justify-center gap-4 mb-6">
+    <a href="menu.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Special of the Day</a>
+    <a href="starters.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Starters</a>
+    <a href="mainCourse.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Main Course</a>
+    <a href="desserts.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Desserts</a>
+  </div>
+
+  <h2 class="text-2xl font-semibold text-[#4b3d2d] mb-4">Main Course</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+    <div class="bg-white/80 rounded shadow p-2">
+      <img src="main1.jpg" alt="Truffle Pasta" class="w-full h-48 object-cover rounded">
+      <h3 class="text-lg font-semibold mt-2 text-[#4b3d2d]">Truffle Pasta</h3>
+      <p class="text-sm text-gray-700">Creamy pasta with black truffle and mushrooms.</p>
+    </div>
+    <div class="bg-white/80 rounded shadow p-2">
+      <img src="main2.jpg" alt="Grilled Chicken" class="w-full h-48 object-cover rounded">
+      <h3 class="text-lg font-semibold mt-2 text-[#4b3d2d]">Grilled Chicken</h3>
+      <p class="text-sm text-gray-700">Herb-marinated chicken with seasonal vegetables.</p>
+    </div>
+    <div class="bg-white/80 rounded shadow p-2">
+      <img src="main3.jpg" alt="Vegan Bowl" class="w-full h-48 object-cover rounded">
+      <h3 class="text-lg font-semibold mt-2 text-[#4b3d2d]">Vegan Bowl</h3>
+      <p class="text-sm text-gray-700">Quinoa, avocado, chickpeas, and roasted veggies.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4">
+  <div class="flex flex-wrap justify-center gap-6">
+    <a href="#" class="hover:underline">Follow us</a>
+    <a href="#" class="hover:underline">Our location</a>
+    <a href="#" class="hover:underline">Contact us</a>
+  </div>
+</footer>
+
+</body>
+</html>

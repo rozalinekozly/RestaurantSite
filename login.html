@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Login | Rosmarino</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="relative font-serif bg-cover bg-center" style="background-image: url('bg1.jpg');">
+<!-- Background Blur Overlay -->
+<div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
+
+<!-- Navbar -->
+<nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
+  <div class="flex gap-3 flex-wrap items-center">
+    <a href="index.html" class="text-sm hover:underline">Home</a>
+    <a href="login.html" class="text-sm hover:underline">Login</a>
+    <a href="menu.html" class="text-sm hover:underline">Menu</a>
+    <a href="feed.html" class="text-sm hover:underline">Feed</a>
+    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
+  </div>
+</nav>
+
+<!-- Login Form Container -->
+<section class="relative z-10 flex items-center justify-center min-h-[80vh] px-4">
+  <div class="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col gap-4">
+    <h2 class="text-2xl font-semibold text-center text-[#4b3d2d]">Login</h2>
+
+    <div class="flex flex-col gap-2">
+      <label for="username" class="text-sm font-medium text-[#4b3d2d]">Username</label>
+      <input type="text" id="username" placeholder="Enter your username"
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+    </div>
+
+    <div class="flex flex-col gap-2">
+      <label for="password" class="text-sm font-medium text-[#4b3d2d]">Password</label>
+      <input type="password" id="password" placeholder="Enter your password"
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+    </div>
+
+    <button id="loginBtn" class="bg-[#8A784E] text-white py-2 rounded hover:bg-[#594100] transition">Login</button>
+
+    <p class="text-xs text-center text-[#4b3d2d]">Don't have an account?
+      <a href="signup.html" class="font-semibold underline hover:text-[#594100]">Sign Up</a>
+    </p>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4">
+  <div class="flex flex-wrap justify-center gap-6">
+    <a href="#" class="hover:underline">Follow us</a>
+    <a href="#" class="hover:underline">Contact us</a>
+  </div>
+</footer>
+
+<!-- Script -->
+<script>
+  const supabaseUrl = 'https://ldignxlbttqoqcvoycbj.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII';
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  window.onload = () => {
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value.trim();
+
+      if (!username || !password) {
+        alert("Please fill in both fields.");
+        return;
+      }
+
+      try {
+        const { data, error } = await supabase
+          .from('users_restaurant')
+          .select('*')
+          .eq('username', username)
+          .eq('password', password)
+          .single();
+
+        if (error || !data) {
+          alert("Username or password is incorrect.");
+        } else {
+          localStorage.setItem('user_name', data.name);
+          window.location.href = 'index.html';
+        }
+      } catch (err) {
+        console.error(err);
+        alert("An error occurred. Please try again.");
+      }
+    });
+  };
+</script>
+
+</body>
+</html>

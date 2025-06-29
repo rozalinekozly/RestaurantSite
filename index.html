@@ -3,124 +3,106 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rosmarino</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Rosmarino | Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+  const name = localStorage.getItem('user_name');
+  if (name) {
+    document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
+  }
+</script>
 </head>
-<body class="bg-[#f9f9f9] font-serif">
+<body class="relative font-serif bg-cover bg-center" style="background-image: url('bg1.jpg');">
+
+<!-- Background Blur Overlay -->
+<div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
 
 <!-- Navbar -->
-<nav class="navbar relative bg-white/80 shadow-md px-6 py-4 flex items-center justify-between">
-  <button class="login-btn text-sm font-serif text-[#4b3d2d] px-3 py-1 rounded  hover:bg-[#ece9e2] border border-[#dedbd2]">Login</button>
-  <h1 class="absolute left-1/2 transform -translate-x-1/2 text-2xl font-serif text-[#4b3d2d] tracking-wide">Rosmarino</h1>
-  <div style="width: 60px;"></div>
+<nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
+  <div class="flex gap-3 flex-wrap items-center">
+    <a href="index.html" class="text-sm hover:underline">Home</a>
+    <a href="login.html" class="text-sm hover:underline">Login</a>
+    <a href="menu.html" class="text-sm hover:underline">Menu</a>
+    <a href="feed.html" class="text-sm hover:underline">Feed</a>
+    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
+    <section class="relative z-10 text-center mt-4">
+  <h2 id="greeting" class="text-xl text-[#7c5a3c]"></h2>
+</section>
+  </div>
 </nav>
 
-<section class="w-full h-80 bg-cover bg-center text-white flex items-center justify-center" 
-style="background-image: url('img-hero.jpg');">
+<!-- Hero Section -->
+<section class="relative z-10 text-center py-12 px-4">
+  <h1 class="text-4xl md:text-6xl font-bold text-[#4b3d2d]">Rosmarino</h1>
+  <p class="text-lg md:text-xl mt-2 text-[#4b3d2d]">Authentic taste, lovingly prepared</p>
+</section>
 
-  <div class="bg-black/50 p-6 rounded-xl text-center">
-    <h1 class="text-4xl font-bold mb-2">Welcome to Rosmarino</h1>
-    <p class="text-lg mb-4">Authentic taste, lovingly prepared</p>
+<!-- Chefs Section -->
+<section class="relative z-10 max-w-4xl mx-auto py-8 px-4 flex flex-wrap justify-center gap-6">
+  <div class="flex flex-col items-center">
+    <img src="chef1.jpg" alt="Rozaline" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-[#8A784E]">
+    <p class="mt-2 text-[#4b3d2d] font-semibold">Rozaline</p>
+  </div>
+  <div class="flex flex-col items-center">
+    <img src="chef2.jpg" alt="Wasim" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-[#8A784E]">
+    <p class="mt-2 text-[#4b3d2d] font-semibold">Wasim</p>
+  </div>
+  <div class="flex flex-col items-center">
+    <img src="chef3.jpg" alt="Pokemon" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-[#8A784E]">
+    <p class="mt-2 text-[#4b3d2d] font-semibold">Pokemon</p>
   </div>
 </section>
 
-<!-- Page layout: Sidebar + Main Content -->
-<div class="flex gap-6 px-4 max-w-7xl mx-auto pt-8">
+<!-- Featured Sections -->
+<section class="relative z-10 max-w-6xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
 
-  <!-- Sidebar -->
-  <aside class="flex flex-col gap-4 w-[250px]">
-    <div class="bg-white/80 rounded-xl p-4 shadow-md text-[#4b3d2d]">
-      <h3 class="text-lg font-semibold mb-1">🍽️ Reserve a Table</h3>
-      <p class="text-sm">Isifya, Haifa , Israel</p>
-      <p class="text-sm mt-1">Planning a visit? We’d love to host you.</p>
-      <button id="makeAReservationBtn" class="mt-3 w-full bg-[#8A784E] text-white py-1 rounded text-sm">Make a Reservation</button>
+  <!-- Today's Special -->
+  <div class="bg-white/80 rounded shadow-lg p-4 text-center">
+    <img src="specialOfTheDay.jpg" alt="Special" class="w-full h-48 object-cover rounded mb-2">
+    <h3 class="text-lg font-semibold text-[#4b3d2d]">Today's Special</h3>
+    <p class="text-sm text-gray-700">Fresh, seasonal dish crafted by our chefs with local ingredients.</p>
+    <p class="text-md font-bold text-[#7c5a3c] mt-1">₪189</p>
+  </div>
+
+  <!-- Reserve a Table (Background Image Card) -->
+  <div class="relative rounded shadow-lg overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('reserveTable1.jpg');"></div>
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative z-10 p-4 flex flex-col items-center text-center text-[#e7cba9]">
+      <h3 class="text-lg font-semibold text-[#e7cba9]">Reserve a Table</h3>
+      <p class="text-sm">Book your cozy spot in our warm atmosphere with ease online.</p>
+      <button class="mt-2 px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Reserve</button>
     </div>
-    <div class="bg-white/80 rounded-xl p-4 shadow-md text-[#4b3d2d]">
-      <h3 class="text-lg font-semibold mb-1">📍 Our Location</h3>
-      <p class="text-sm mb-2">Isifya, Haifa , Israel</p>
-      <h3 class="text-lg font-semibold mb-1">🕒 Open Hours</h3>
-      <p class="text-sm">Sun–Fri: 11am – 10pm<br>Sat: Closed</p>
+  </div>
+
+  <!-- Home Delivery (Background Image Card) -->
+  <div class="relative rounded shadow-lg overflow-hidden">
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('homeDelivary1.jpg');"></div>
+    <div class="absolute inset-0 bg-black/40"></div>
+    <div class="relative z-10 p-4 flex flex-col items-center text-center text-[#e7cba9]">
+      <h3 class="text-lg font-semibold text-[#e7cba9]">Home Delivery</h3>
+      <p class="text-sm">Enjoy Rosmarino’s taste from home with our efficient delivery service.</p>
+      <button class="mt-2 px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#2D4F2B] transition">Order Now</button>
     </div>
-    <div class="bg-white/80 rounded-xl p-4 shadow-md text-[#4b3d2d]">
-      <h3 class="text-lg font-semibold mb-1">Join Membership</h3>
-      <button id="joinMembershipBtn" class="mt-3 w-full bg-[#8A784E] text-white py-1 rounded text-sm">Join</button>
-    </div>
+  </div>
+</section>
 
-     <div class="bg-white/80 rounded-xl p-4 shadow-md text-[#4b3d2d]">
-       
-       <h2 class="text-2xl font-semibold text-[#4b3d2d] mb-4">What Our Guests Say</h2>
-       <div class="grid  gap-4 text-sm text-[#4b3d2d]">
-       <div class="bg-white/80 p-4 rounded-xl shadow-md">
-        “A little piece of Italy in Israel. Absolutely stunning flavors.” <br><span class="font-bold">– Lior M.</span>
-     </div>
-    <div class="bg-white/80 p-4 rounded-xl shadow-md">
-      “From the atmosphere to the dishes – 10/10!” <br><span class="font-bold">– Maya B.</span>
-    </div>
-    <div class="bg-white/80 p-4 rounded-xl shadow-md">
-      “Their truffle pasta is pure magic.” <br><span class="font-bold">– Ahmed K.</span>
-    </div>
-   </div>
- 
- 
-     </div>
+<!-- Join Membership (Full Width) -->
+<section class="relative z-10 max-w-6xl mx-auto py-8 px-4">
+  <div class="bg-white/80 rounded shadow-lg p-6 text-center">
+    <h3 class="text-xl md:text-2xl font-semibold text-[#4b3d2d] mb-2">Join Our Membership</h3>
+    <p class="text-sm text-gray-700 mb-4">Receive updates, exclusive discounts, and more. Be part of our Rosmarino family and enjoy the freshest offers directly from our kitchen to your table.</p>
+    <button class="px-4 py-2 bg-[#8A784E] text-white rounded hover:bg-[#2D4F2B] transition">Join Now</button>
+  </div>
+</section>
 
-  </aside>
+<!-- Footer -->
+<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4">
+  <div class="flex flex-wrap justify-center gap-6">
+    <a href="#" class="hover:underline">Follow us</a>
+    <a href="#" class="hover:underline">Contact us</a>
+  </div>
+</footer>
 
-  <!-- Main content -->
-  <main class="flex-1 flex flex-col gap-10">
-
-    <!-- From the Chef -->
-    <section>
-      <div class="bg-white/80 shadow-md rounded-2xl p-4 flex items-center gap-6 text-[#4b3d2d]">
-        <img src="img14.jpg" alt="Chef Portrait" class="w-32 h-32 object-cover rounded-full border-4 border-[#8A784E]" />
-        <div class="text-left">
-          <h2 class="text-xl font-semibold mb-1">From the Chef</h2>
-          <p class="italic text-gray-700 text-sm">
-            "I don’t just cook food — I create stories. Welcome to my table, where every dish is a page from home."
-          </p>
-          <p class="mt-2 text-[#6b5e4b] text-sm font-medium">– Chef Emilia Bianchi</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Special of the Day -->
-    <section>
-      <div class="bg-white/80 shadow-md rounded-2xl p-6 flex flex-col items-center text-center text-[#4b3d2d]">
-        <img src="specialOfTheDay.jpg" alt="Special Dish" class="w-full h-64 object-cover rounded-xl mb-4">
-        <h2 class="text-2xl font-semibold text-gray-800 mb-2">Special of the Day</h2>
-        <p class="text-gray-600 mb-1">Lemon Herb Risotto – creamy, zesty, unforgettable.</p>
-        <p class="font-bold text-[#7c5a3c] text-lg">₪42</p>
-      </div>
-    </section>
-
-    <!-- Starters -->
-    <section class="grid grid-cols-4 gap-4 mb-10 px-4">
-      <div class="flex items-center justify-center text-xl text-[#4b3d2d] bg-white/70 rounded-xl p-2 shadow-sm">Starters</div>
-      <div class="menu-card"><img src="garlicBread.jpg" class="menu-img" alt="Garlic Bread"><h3 class="dish-title">Garlic Bread</h3><p class="dish-note">Toasted with herbs & olive oil</p><p class="dish-price">₪18</p></div>
-      <div class="menu-card"><img src="Tomato Basil Soup.jpg" class="menu-img" alt="Soup"><h3 class="dish-title">Tomato Basil Soup</h3><p class="dish-note">Fresh tomatoes & basil</p><p class="dish-price">₪22</p></div>
-      <div class="menu-card"><img src="Caprese Salad.jpg" class="menu-img" alt="Salad"><h3 class="dish-title">Caprese Salad</h3><p class="dish-note">Mozzarella, basil & tomato</p><p class="dish-price">₪26</p></div>
-    </section>
-
-    <!-- Main Course -->
-    <section class="grid grid-cols-4 gap-4 mb-10 px-4">
-      <div class="flex items-center justify-center text-center text-xl text-[#4b3d2d] bg-white/70 rounded-xl p-2 shadow-sm">Main Course</div>
-      <div class="menu-card"><img src="Truffle Pasta.jpg" class="menu-img" alt="Pasta"><h3 class="dish-title">Truffle Pasta</h3><p class="dish-note">Creamy white sauce & mushrooms</p><p class="dish-price">₪39</p></div>
-      <div class="menu-card"><img src="Grilled Chicken.jpg" class="menu-img" alt="Chicken"><h3 class="dish-title">Grilled Chicken</h3><p class="dish-note">Herb-marinated, served with roasted veggies</p><p class="dish-price">₪44</p></div>
-      <div class="menu-card"><img src="Vegan Bowl.jpg" class="menu-img" alt="Vegan Bowl"><h3 class="dish-title">Vegan Bowl</h3><p class="dish-note">Quinoa, chickpeas, avocado, and greens</p><p class="dish-price">₪36</p></div>
-    </section>
-
-    <!-- Desserts -->
-    <section class="grid grid-cols-4 gap-4 px-4 mb-16">
-      <div class="flex items-center justify-center text-xl text-[#4b3d2d] bg-white/70 rounded-xl p-2 shadow-sm">Desserts</div>
-      <div class="menu-card"><img src="Warm Brownie.jpg" class="menu-img" alt="Brownie"><h3 class="dish-title">Warm Brownie</h3><p class="dish-note">Served with vanilla gelato</p><p class="dish-price">₪20</p></div>
-      <div class="menu-card"><img src="Classic Cheesecake.jpg" class="menu-img" alt="Cheesecake"><h3 class="dish-title">Classic Cheesecake</h3><p class="dish-note">Rich, creamy, and smooth</p><p class="dish-price">₪24</p></div>
-      <div class="menu-card"><img src="Artisan Gelato.jpg" class="menu-img" alt="Ice Cream"><h3 class="dish-title">Artisan Gelato</h3><p class="dish-note">Locally made in seasonal flavors</p><p class="dish-price">₪18</p></div>
-    </section>
-
-  </main>
-</div>
-
-<script type="module" src="script.js"></script>
 </body>
 </html>
