@@ -5,93 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sign Up | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script type="module">
-    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
-
-    const supabaseUrl = 'https://ldignxlbttqoqcvoycbj.supabase.co';
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII';
-    const supabase = createClient(supabaseUrl, supabaseKey);
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('signup-form');
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const fullname = document.getElementById('fullname');
-        const phone = document.getElementById('phone');
-        const email = document.getElementById('email');
-        const username = document.getElementById('username');
-        const password = document.getElementById('password');
-        const genderRadios = document.getElementsByName('gender');
-
-        let gender = '';
-        genderRadios.forEach(radio => { if (radio.checked) gender = radio.value; });
-
-        // Reset field borders
-        [fullname, phone, email, username, password].forEach(field => field.classList.remove('border-red-500'));
-        document.getElementById('gender-label').classList.remove('text-red-500');
-
-        let hasError = false;
-
-        if (!fullname.value.trim()) { fullname.classList.add('border-red-500'); hasError = true; }
-        if (!phone.value.trim() || isNaN(phone.value.trim())) { phone.classList.add('border-red-500'); hasError = true; }
-        if (!email.value.trim() || !/^\S+@\S+\.\S+$/.test(email.value.trim())) { email.classList.add('border-red-500'); hasError = true; }
-        if (!username.value.trim()) { username.classList.add('border-red-500'); hasError = true; }
-        if (!password.value.trim()) { password.classList.add('border-red-500'); hasError = true; }
-        if (!gender) { document.getElementById('gender-label').classList.add('text-red-500'); hasError = true; }
-
-        if (hasError) {
-          alert('Please correct highlighted fields.');
-          return;
-        }
-
-        try {
-          // Check for duplicate username
-          const { data: existingUser, error: fetchError } = await supabase
-            .from('users_restaurant')
-            .select('*')
-            .eq('username', username.value.trim());
-
-          if (existingUser && existingUser.length > 0) {
-            alert('Username already exists. Please choose a different username.');
-            username.classList.add('border-red-500');
-            return;
-          }
-
-          const { error: insertError } = await supabase
-            .from('users_restaurant')
-            .insert([
-              {
-                name: fullname.value.trim(),
-                phone: parseInt(phone.value.trim()),
-                email: email.value.trim(),
-                username: username.value.trim(),
-                password: password.value.trim(),
-                gender: gender
-              }
-            ]);
-
-          if (insertError) {
-            console.error('Supabase insert error:', insertError);
-            alert('An error occurred: ' + insertError.message);
-            return;
-          }
-
-          // Save name to localStorage for greeting
-          localStorage.setItem('user_name', fullname.value.trim());
-
-          // Redirect to home
-          window.location.href = 'index.html';
-        } catch (error) {
-          console.error('Error during signup:', error);
-          alert('An error occurred. Please try again.');
-        }
-      });
-    });
-  </script>
 </head>
 
-<body class="relative font-serif bg-cover bg-center min-h-screen flex flex-col" style="background-image: url('../images/ambiance/bg1.jpg');">
+<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
@@ -107,9 +23,8 @@
   </div>
 </nav>
 
- <main class="flex-grow">
-<!-- Sign Up Form -->
-<main class="relative z-10 flex-grow flex items-center justify-center px-4">
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center px-4 relative z-10">
   <form id="signupForm" class="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col gap-4 mt-8 mb-8">
     <h2 class="text-2xl font-semibold text-center text-[#4b3d2d]">Sign Up</h2>
 
@@ -138,7 +53,7 @@
     </div>
 
     <div class="flex flex-col gap-1">
-      <span class="text-sm font-medium text-[#4b3d2d]">Gender</span>
+      <span id="gender-label" class="text-sm font-medium text-[#4b3d2d]">Gender</span>
       <div class="flex gap-4">
         <label class="flex items-center gap-1">
           <input type="radio" name="gender" value="male" class="accent-[#8A784E]">
@@ -160,55 +75,12 @@
 </main>
 
 <!-- Footer -->
-<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4">
+<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
   <div class="flex flex-wrap justify-center gap-6">
     <a href="#" class="hover:underline">Follow us</a>
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
 
-<!-- Supabase Sign Up Script -->
-<script type="module">
-import { supabase } from '../JS/db.js';
-
-document.getElementById('signupForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  // ... your validation logic here ...
-
-  // Check if username exists
-  const { data: existing, error: fetchError } = await supabase
-    .from('users_restaurant')
-    .select('username')
-    .eq('username', username.value.trim());
-
-  if (existing && existing.length > 0) {
-    alert('Username already taken. Please choose another.');
-    return;
-  }
-
-  // Insert new user
-  const { error: insertError } = await supabase
-    .from('users_restaurant')
-    .insert({
-      name: fullname.value.trim(),
-      username: username.value.trim(),
-      email: email.value.trim(),
-      phone: phone.value.trim(),
-      gender: genderValue
-    });
-
-  if (insertError) {
-    console.error(insertError);
-    alert('An error occurred while creating your account.');
-    return;
-  }
-
-  localStorage.setItem('user_name', fullname.value.trim());
-  window.location.href = 'index.html';
-});
-</script>
-
-</main>
 </body>
 </html>

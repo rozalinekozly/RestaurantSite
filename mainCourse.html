@@ -6,7 +6,7 @@
   <title>Main Course | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="relative font-serif bg-cover bg-center min-h-screen flex flex-col" style="background-image: url('../images/ambiance/bg1.jpg');">
+<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
@@ -18,14 +18,15 @@
     <a href="login.html" class="text-sm hover:underline">Login</a>
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
-   <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
-    
-
+    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
   </div>
 </nav>
- <main class="flex-grow">
+
+<!-- Main Content -->
+<main class="flex-grow relative z-10">
+
 <!-- Category Navigation -->
-<section class="relative z-10 max-w-6xl mx-auto py-8 px-4 text-center">
+<section class="max-w-6xl mx-auto py-8 px-4 text-center">
   <div class="flex flex-wrap justify-center gap-4 mb-6">
     <a href="menu.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Special of the Day</a>
     <a href="starters.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Starters</a>
@@ -37,30 +38,32 @@
 
   <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
     <div class="bg-white/80 rounded shadow p-2">
-      <img src="images\food\Truffle Pasta.jpg" alt="Truffle Pasta" class="w-full h-48 object-cover rounded">
+      <img src="images/food/Truffle Pasta.jpg" alt="Truffle Pasta" class="w-full h-48 object-cover rounded">
       <h3 class="text-lg font-semibold mt-2 text-[#4b3d2d]">Truffle Pasta</h3>
       <p class="text-sm text-gray-700">Creamy pasta with black truffle and mushrooms.</p>
     </div>
     <div class="bg-white/80 rounded shadow p-2">
-      <img src="images\food\Grilled Chicken.jpg" alt="Grilled Chicken" class="w-full h-48 object-cover rounded">
+      <img src="images/food/Grilled Chicken.jpg" alt="Grilled Chicken" class="w-full h-48 object-cover rounded">
       <h3 class="text-lg font-semibold mt-2 text-[#4b3d2d]">Grilled Chicken</h3>
       <p class="text-sm text-gray-700">Herb-marinated chicken with seasonal vegetables.</p>
     </div>
     <div class="bg-white/80 rounded shadow p-2">
-      <img src="images\food\Vegan Bowl.jpg" alt="Vegan Bowl" class="w-full h-48 object-cover rounded">
+      <img src="images/food/Vegan Bowl.jpg" alt="Vegan Bowl" class="w-full h-48 object-cover rounded">
       <h3 class="text-lg font-semibold mt-2 text-[#4b3d2d]">Vegan Bowl</h3>
       <p class="text-sm text-gray-700">Quinoa, avocado, chickpeas, and roasted veggies.</p>
     </div>
   </div>
 </section>
 
+</main>
+
 <!-- Footer -->
-<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4">
+<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
   <div class="flex flex-wrap justify-center gap-6">
     <a href="#" class="hover:underline">Follow us</a>
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
-</main>
+
 </body>
 </html>

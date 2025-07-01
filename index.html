@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="relative font-serif bg-cover bg-center min-h-screen flex flex-col" style="background-image: url('../images/ambiance/bg1.jpg');">
+<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
@@ -21,11 +21,12 @@
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
     <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
     <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
-
   </div>
 </nav>
 
- <main class="flex-grow">
+<!-- Main Content -->
+<main class="flex-grow">
+
 <!-- Greeting -->
 <section class="relative z-10 text-center mt-4">
   <h2 id="greeting" class="text-xl text-[#7c5a3c]"></h2>
@@ -40,7 +41,7 @@
 <!-- Chefs Section -->
 <section class="relative z-10 max-w-4xl mx-auto py-8 px-4 flex flex-wrap justify-center gap-6">
   <div class="flex flex-col items-center">
-  <img src="../images/chefs/chef4.jpg" alt="Gordon" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover object-top border-4 border-[#8A784E]">
+    <img src="../images/chefs/chef4.jpg" alt="Gordon" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover object-top border-4 border-[#8A784E]">
     <p class="mt-2 text-[#4b3d2d] font-semibold">Gordon Ramsay</p>
   </div>
   <div class="flex flex-col items-center">
@@ -66,7 +67,7 @@
 
   <!-- Reserve a Table -->
   <div class="relative rounded shadow-lg overflow-hidden">
-<div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../images/ambiance/reserveTable1.jpg');"></div>
+    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../images/ambiance/reserveTable1.jpg');"></div>
     <div class="absolute inset-0 bg-black/40"></div>
     <div class="relative z-10 p-4 flex flex-col items-center text-center text-[#e7cba9]">
       <h3 class="text-lg font-semibold">Reserve a Table</h3>
@@ -96,38 +97,33 @@
   </div>
 </section>
 
+</main>
+
 <!-- Footer -->
-<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4">
+<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
   <div class="flex flex-wrap justify-center gap-6">
     <a href="#" class="hover:underline">Follow us</a>
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
 
-<!-- Greeting Script -->
+<!-- Greeting and Logout Logic -->
 <script>
-  window.onload = function() {
-    const name = localStorage.getItem('user_name');
-    if (name) {
-      document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
-    }
-  }
-
-  window.onload = function() {
+window.onload = function() {
   const name = localStorage.getItem('user_name');
   const logoutBtn = document.getElementById('logoutBtn');
 
   if (name) {
     document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
-    logoutBtn.classList.remove('hidden'); // Show logout when logged in
+    logoutBtn.classList.remove('hidden');
   }
 
   logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem('user_name'); // Clear login
-    location.reload(); // Reload to show logged-out state
+    localStorage.removeItem('user_name');
+    location.reload();
   });
-}
+};
 </script>
-</main>
+
 </body>
 </html>

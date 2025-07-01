@@ -6,7 +6,8 @@
   <title>Feed | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="relative font-serif bg-cover bg-center min-h-screen flex flex-col" style="background-image: url('../images/ambiance/bg1.jpg');">
+
+<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
@@ -22,7 +23,9 @@
   </div>
 </nav>
 
- <main class="flex-grow">
+<!-- Main Content -->
+<main class="flex-grow">
+
 <!-- Feed Content -->
 <section class="relative z-10 max-w-3xl mx-auto py-10 px-4 flex flex-col gap-10">
 
@@ -42,13 +45,15 @@
 
 </section>
 
+</main>
+
 <!-- Footer -->
-<footer class="relative z-10 bg-white/80 text-center text-sm text-[#4b3d2d] py-4">
+<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
   <div class="flex flex-wrap justify-center gap-6">
     <a href="#" class="hover:underline">Follow us</a>
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
-</main>
+
 </body>
 </html>
