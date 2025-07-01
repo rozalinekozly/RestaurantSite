@@ -3,7 +3,7 @@
 A clean and elegant static website for an Italian restaurant, built using HTML, CSS, and TailwindCSS. It includes a responsive layout, daily specials, and reservation options.
 
 <p align="center">
-  <img src="Screenshot 2025-06-27 025123.png" width="600" alt="Website Preview"/>
+  <img src="images/Screenshot 2025-07-01 233513.png" width="600" alt="Website Preview"/>
 </p>
 
 ## Features
