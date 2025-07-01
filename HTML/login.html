@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="relative font-serif bg-cover bg-center min-h-screen flex flex-col" style="background-image: url('bg1.jpg');">
+<body class="relative font-serif bg-cover bg-center min-h-screen flex flex-col" style="background-image: url('../images/ambiance/bg1.jpg');">
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
@@ -58,11 +58,7 @@
 
 <!-- Supabase Login Script -->
 <script type="module">
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-
-const supabaseUrl = 'https://ldignxlbttqoqcvoycbj.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII';
-const supabase = createClient(supabaseUrl, supabaseKey);
+import { supabase } from '../JS/db.js';
 
 document.getElementById('loginBtn').addEventListener('click', async () => {
   const username = document.getElementById('username').value.trim();
