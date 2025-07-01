@@ -20,6 +20,8 @@
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
     <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
+
   </div>
 </nav>
 
@@ -109,6 +111,21 @@
       document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
     }
   }
+
+  window.onload = function() {
+  const name = localStorage.getItem('user_name');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  if (name) {
+    document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
+    logoutBtn.classList.remove('hidden'); // Show logout when logged in
+  }
+
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('user_name'); // Clear login
+    location.reload(); // Reload to show logged-out state
+  });
+}
 </script>
 
 </body>
