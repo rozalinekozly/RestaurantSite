@@ -2,58 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Guests | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
 <body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
 
 <!-- Navbar -->
-<nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
+<nav class="relative z-10 flex justify-between items-center bg-white/80 shadow px-4 py-3">
+  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
   <div class="flex gap-3 flex-wrap items-center">
     <a href="index.html" class="text-sm hover:underline">Home</a>
     <a href="login.html" class="text-sm hover:underline">Login</a>
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
     <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
   </div>
 </nav>
 
 <!-- Main Content -->
-<main class="flex-grow">
+<main class="flex-grow flex flex-col items-center justify-start px-4 relative z-10">
 
-<!-- Guests Opinions Section -->
-<section class="relative z-10 max-w-3xl mx-auto py-10 px-4 text-center">
-  <h2 class="text-3xl font-semibold text-[#4b3d2d] mb-6">Our Guests</h2>
+  <!-- Add Opinion Button -->
+  <button id="addOpinionBtn" class="mt-8 text-5xl text-[#8A784E] hover:text-[#594100] transition transform hover:scale-110">+</button>
 
-  <div class="flex flex-col gap-4">
-    <div class="bg-white/80 p-4 rounded shadow text-left">
-      <p class="text-sm text-gray-700">“The lemon risotto brought me back to Italy. Authentic and comforting.”</p>
-      <p class="text-xs mt-2 font-semibold text-[#4b3d2d]">– Lior M.</p>
-    </div>
-    <div class="bg-white/80 p-4 rounded shadow text-left">
-      <p class="text-sm text-gray-700">“We loved the ambiance and the fresh pasta was divine.”</p>
-      <p class="text-xs mt-2 font-semibold text-[#4b3d2d]">– Sarah B.</p>
-    </div>
-    <div class="bg-white/80 p-4 rounded shadow text-left">
-      <p class="text-sm text-gray-700">“Warm brownie with gelato was the perfect ending to our meal.”</p>
-      <p class="text-xs mt-2 font-semibold text-[#4b3d2d]">– Ahmed K.</p>
-    </div>
-    <div class="bg-white/80 p-4 rounded shadow text-left">
-      <p class="text-sm text-gray-700">“The staff made us feel like family. We will definitely come again.”</p>
-      <p class="text-xs mt-2 font-semibold text-[#4b3d2d]">– Naomi R.</p>
-    </div>
-    <div class="bg-white/80 p-4 rounded shadow text-left">
-      <p class="text-sm text-gray-700">“Rosmarino is a hidden gem with beautiful flavors and presentation.”</p>
-      <p class="text-xs mt-2 font-semibold text-[#4b3d2d]">– Tomer S.</p>
-    </div>
+  <!-- Opinion Input (hidden initially) -->
+  <div id="opinionInputContainer" class="hidden mt-4 w-full max-w-md">
+    <textarea id="opinionInput" rows="3" placeholder="Share your opinion..."
+      class="w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]"></textarea>
+    <button id="submitOpinionBtn" class="mt-2 w-full bg-[#8A784E] text-white py-2 rounded hover:bg-[#594100] transition">Submit Opinion</button>
   </div>
-</section>
 
+  <!-- Guests Opinions Section -->
+  <section class="relative z-10 max-w-3xl mx-auto py-10 px-4 text-center">
+    <h2 class="text-3xl font-semibold text-[#4b3d2d] mb-6">Our Guests</h2>
+    <div id="opinionsContainer" class="flex flex-col gap-4"></div>
+  </section>
 </main>
 
 <!-- Footer -->
@@ -63,6 +51,145 @@
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
+
+<script type="module">
+import { supabase } from '../JS/db.js';
+
+const addOpinionBtn = document.getElementById('addOpinionBtn');
+const opinionInputContainer = document.getElementById('opinionInputContainer');
+const opinionInput = document.getElementById('opinionInput');
+const submitOpinionBtn = document.getElementById('submitOpinionBtn');
+const opinionsContainer = document.getElementById('opinionsContainer');
+const logoutBtn = document.getElementById('logoutBtn');
+const userDisplay = document.getElementById('userDisplay');
+
+const userName = localStorage.getItem('user_name');
+
+// Show user name and logout if logged in
+if (userName) {
+  userDisplay.textContent = `👤 ${userName}`;
+  logoutBtn.classList.remove('hidden');
+}
+
+logoutBtn.addEventListener('click', () => {
+  localStorage.removeItem('user_name');
+  window.location.reload();
+});
+
+// Toggle opinion input
+addOpinionBtn.addEventListener('click', () => {
+  if (!userName) {
+    window.location.href = 'login.html';
+    return;
+  }
+  opinionInputContainer.classList.toggle('hidden');
+});
+
+// Submit opinion
+submitOpinionBtn.addEventListener('click', async () => {
+  const opinionText = opinionInput.value.trim();
+  if (!opinionText) {
+    opinionInput.classList.add('border-red-500');
+    return;
+  }
+
+  opinionInput.classList.remove('border-red-500');
+
+  // Check if user already posted
+  const { data: existing, error: fetchError } = await supabase
+    .from('opinions')
+    .select('*')
+    .eq('user_name', userName)
+    .single();
+
+  if (existing) {
+    // Update existing
+    const { error: updateError } = await supabase
+      .from('opinions')
+      .update({ opinion: opinionText })
+      .eq('user_name', userName);
+
+    if (updateError) {
+      window.alert("❌ Failed to update your opinion.");
+    } else {
+      window.alert("✅ Your opinion was updated!");
+      window.location.reload();
+    }
+  } else {
+    // Insert new
+    const { error: insertError } = await supabase
+      .from('opinions')
+      .insert([{ user_name: userName, opinion: opinionText }]);
+
+    if (insertError) {
+      window.alert("❌ Failed to add your opinion.");
+    } else {
+      window.alert("✅ Thank you for sharing your opinion!");
+      window.location.reload();
+    }
+  }
+});
+
+// Load and display opinions
+async function loadOpinions() {
+  const { data, error } = await supabase
+    .from('opinions')
+    .select('*')
+    .order('id', { ascending: false });
+
+  if (error) {
+    opinionsContainer.innerHTML = '<p class="text-red-500">Failed to load opinions.</p>';
+    return;
+  }
+
+  opinionsContainer.innerHTML = '';
+
+  // Show current user's opinion first if exists
+  if (userName) {
+    const userOpinion = data.find(op => op.user_name === userName);
+    if (userOpinion) {
+      opinionsContainer.appendChild(createOpinionCard(userOpinion, true));
+    }
+  }
+
+  // Show other opinions
+  data.forEach(op => {
+    if (!userName || op.user_name !== userName) {
+      opinionsContainer.appendChild(createOpinionCard(op));
+    }
+  });
+}
+
+// Format user display as "FirstName L."
+function formatName(name) {
+  if (!name) return '';
+  const parts = name.trim().split(/\s+/);
+  const first = parts[0].charAt(0).toUpperCase() + parts[0].slice(1).toLowerCase();
+  const lastInitial = parts[1] ? parts[1].charAt(0).toUpperCase() + '.' : '';
+  return `${first} ${lastInitial}`;
+}
+
+// Create opinion card
+function createOpinionCard(opinionData, isUser = false) {
+  const card = document.createElement('div');
+  card.className = `bg-white/80 p-4 rounded shadow text-left ${isUser ? 'border-2 border-[#8A784E]' : ''}`;
+
+  const opinionText = document.createElement('p');
+  opinionText.className = 'text-sm text-gray-700';
+  opinionText.textContent = `"${opinionData.opinion}"`;
+
+  const author = document.createElement('p');
+  author.className = `text-xs mt-2 font-semibold ${isUser ? 'text-[#594100]' : 'text-[#4b3d2d]'}`;
+  author.textContent = `– ${formatName(opinionData.user_name)}`;
+
+  card.appendChild(opinionText);
+  card.appendChild(author);
+
+  return card;
+}
+
+loadOpinions();
+</script>
 
 </body>
 </html>

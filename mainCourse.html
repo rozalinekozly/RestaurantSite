@@ -13,12 +13,14 @@
 
 <!-- Navbar -->
 <nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
+  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
   <div class="flex gap-3 flex-wrap items-center">
     <a href="index.html" class="text-sm hover:underline">Home</a>
     <a href="login.html" class="text-sm hover:underline">Login</a>
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
     <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
   </div>
 </nav>
 
@@ -64,6 +66,23 @@
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
+
+<!-- User Display and Logout Script -->
+<script>
+const userDisplay = document.getElementById('userDisplay');
+const logoutBtn = document.getElementById('logoutBtn');
+const name = localStorage.getItem('user_name');
+
+if (name) {
+  userDisplay.textContent = `👤 ${name}`;
+  logoutBtn.classList.remove('hidden');
+}
+
+logoutBtn.addEventListener('click', () => {
+  localStorage.removeItem('user_name');
+  location.reload();
+});
+</script>
 
 </body>
 </html>

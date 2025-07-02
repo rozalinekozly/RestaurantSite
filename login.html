@@ -14,12 +14,14 @@
 
 <!-- Navbar -->
 <nav class="relative z-10 flex justify-between items-center bg-white/80 shadow px-4 py-3">
+  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
   <div class="flex gap-3 flex-wrap items-center">
     <a href="index.html" class="text-sm hover:underline">Home</a>
     <a href="login.html" class="text-sm hover:underline">Login</a>
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
     <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
   </div>
 </nav>
 
@@ -28,12 +30,14 @@
   <div class="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col gap-4 mt-8 mb-8">
     <h2 class="text-2xl font-semibold text-center text-[#4b3d2d]">Login</h2>
 
+    <!-- Full Name -->
     <div class="flex flex-col gap-2">
-      <label for="username" class="text-sm font-medium text-[#4b3d2d]">Username</label>
-      <input type="text" id="username" placeholder="Enter your username"
+      <label for="username" class="text-sm font-medium text-[#4b3d2d]">Full Name</label>
+      <input type="text" id="username" placeholder="Enter your First and Last Name"
         class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
     </div>
 
+    <!-- Password -->
     <div class="flex flex-col gap-2">
       <label for="password" class="text-sm font-medium text-[#4b3d2d]">Password</label>
       <input type="password" id="password" placeholder="Enter your password"
@@ -49,7 +53,7 @@
 </main>
 
 <!-- Footer -->
-<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
+<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10 mt-auto">
   <div class="flex flex-wrap justify-center gap-6">
     <a href="#" class="hover:underline">Follow us</a>
     <a href="#" class="hover:underline">Contact us</a>
@@ -60,29 +64,85 @@
 <script type="module">
 import { supabase } from '../JS/db.js';
 
-document.getElementById('loginBtn').addEventListener('click', async () => {
-  const username = document.getElementById('username').value.trim();
-  const password = document.getElementById('password').value.trim();
+const loginBtn = document.getElementById('loginBtn');
+const usernameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
+const logoutBtn = document.getElementById('logoutBtn');
+const userDisplay = document.getElementById('userDisplay');
 
-  if (!username || !password) {
-    alert("Please fill in both fields.");
-    return;
-  }
+// Normalize full name
+function normalizeName(name) {
+    return name.trim().toLowerCase().replace(/\s+/g, ' ');
+}
 
-  const { data, error } = await supabase
-    .from('users_restaurant')
-    .select('*')
-    .eq('username', username)
-    .eq('password', password)
-    .single();
+// Load user display if logged in
+const name = localStorage.getItem('user_name');
+if (name) {
+    userDisplay.textContent = `👤 ${name}`;
+    logoutBtn.classList.remove('hidden');
+}
+logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('user_name');
+    location.reload();
+});
 
-  if (error || !data) {
-    console.error(error);
-    alert("Username or password is incorrect.");
-  } else {
-    localStorage.setItem('user_name', data.name);
-    window.location.href = 'index.html';
-  }
+loginBtn.addEventListener('click', async () => {
+    const fullName = usernameInput.value.trim();
+    const password = passwordInput.value.trim();
+
+    // Clear previous error styles
+    usernameInput.classList.remove('border-red-500');
+    passwordInput.classList.remove('border-red-500');
+
+    if (!fullName || fullName.split(' ').length < 2) {
+        usernameInput.classList.add('border-red-500');
+        window.alert("❌ Please enter your full name (first and last).");
+        return;
+    }
+    if (!password) {
+        passwordInput.classList.add('border-red-500');
+        window.alert("❌ Please enter your password.");
+        return;
+    }
+
+    const normalizedFullName = normalizeName(fullName);
+
+    try {
+        const { data, error } = await supabase.from('users_restaurant').select('*');
+
+        if (error || !data) {
+            window.alert("❌ Failed to connect to the database.");
+            return;
+        }
+
+        const user = data.find(user => {
+            if (!user["first name"] || !user["last name"] || !user["password"]) return false;
+            const userFullName = normalizeName(`${user["first name"]} ${user["last name"]}`);
+            return userFullName === normalizedFullName;
+        });
+
+        if (!user) {
+            usernameInput.classList.add('border-red-500');
+            window.alert("❌ Full name not found. Please check your spelling.");
+        } else if (user["password"] !== password) {
+            passwordInput.classList.add('border-red-500');
+            window.alert("❌ Incorrect password. Please try again.");
+        } else {
+            localStorage.setItem('user_name', `${user["first name"]} ${user["last name"]}`);
+            window.alert(`✅ Hello, ${user["first name"]}! Welcome to Rosmarino.`);
+            window.location.href = 'index.html';
+        }
+    } catch (err) {
+        window.alert("❌ An unexpected error occurred:\n" + err.message);
+    }
+});
+
+// Remove red border on typing
+usernameInput.addEventListener('input', () => {
+    usernameInput.classList.remove('border-red-500');
+});
+passwordInput.addEventListener('input', () => {
+    passwordInput.classList.remove('border-red-500');
 });
 </script>
 

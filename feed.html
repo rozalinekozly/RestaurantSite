@@ -14,12 +14,14 @@
 
 <!-- Navbar -->
 <nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
+  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
   <div class="flex gap-3 flex-wrap items-center">
     <a href="index.html" class="text-sm hover:underline">Home</a>
     <a href="login.html" class="text-sm hover:underline">Login</a>
     <a href="menu.html" class="text-sm hover:underline">Menu</a>
     <a href="feed.html" class="text-sm hover:underline">Feed</a>
     <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
   </div>
 </nav>
 
@@ -31,14 +33,14 @@
 
   <!-- Post 1 -->
   <div class="bg-white/80 p-4 rounded shadow flex flex-col items-center text-center">
-    <img src="../images/posts/handMadePasta.jpg" alt="Chef Post 1" class="w-full max-w-sm h-60 object-cover rounded mb-4">
+    <img src="../images/posts/lemonRisotto.jpg" alt="Chef Post 1" class="w-full max-w-sm h-60 object-cover rounded mb-4">
     <h3 class="text-lg font-semibold text-[#4b3d2d]">Chef Asaf Granit</h3>
     <p class="text-sm text-gray-700 mt-1">“Today’s risotto is inspired by the lemon groves of Amalfi.”</p>
   </div>
 
   <!-- Post 2 -->
   <div class="bg-white/80 p-4 rounded shadow flex flex-col items-center text-center">
-    <img src="../images/posts/lemonRisotto.jpg" alt="Chef Post 2" class="w-full max-w-sm h-60 object-cover rounded mb-4">
+    <img src="../images/posts/handMadePasta.jpg" alt="Chef Post 2" class="w-full max-w-sm h-60 object-cover rounded mb-4">
     <h3 class="text-lg font-semibold text-[#4b3d2d]">Chef Gordon Ramsay</h3>
     <p class="text-sm text-gray-700 mt-1">“Crafting handmade pasta this morning, a tradition passed from my grandmother.”</p>
   </div>
@@ -54,6 +56,23 @@
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
+
+<script>
+// User display + logout button logic
+const userDisplay = document.getElementById('userDisplay');
+const logoutBtn = document.getElementById('logoutBtn');
+const userName = localStorage.getItem('user_name');
+
+if (userName) {
+  userDisplay.textContent = `👤 ${userName}`;
+  logoutBtn.classList.remove('hidden');
+}
+
+logoutBtn.addEventListener('click', () => {
+  localStorage.removeItem('user_name');
+  window.location.reload();
+});
+</script>
 
 </body>
 </html>
