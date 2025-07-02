@@ -6,7 +6,7 @@
   <title>Desserts | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="relative font-serif bg-cover bg-center " style="background-image: url('../images/ambiance/bg1.jpg');">
+<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
 
 <!-- Background Blur Overlay -->
 <div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
@@ -24,8 +24,11 @@
   </div>
 </nav>
 
+<!-- Main Content -->
+<main class="flex-grow relative z-10 flex flex-col">
+
 <!-- Category Navigation -->
-<section class="relative z-10 max-w-6xl mx-auto py-8 px-4 text-center">
+<section class="max-w-6xl mx-auto py-8 px-4 text-center">
   <div class="flex flex-wrap justify-center gap-4 mb-6">
     <a href="menu.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Special of the Day</a>
     <a href="starters.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Starters</a>
@@ -53,17 +56,18 @@
     </div>
   </div>
 </section>
+</main>
 
 <!-- Footer -->
-<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
+<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10 mt-auto">
   <div class="flex flex-wrap justify-center gap-6">
     <a href="#" class="hover:underline">Follow us</a>
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
 
+<!-- User Display and Logout Script -->
 <script>
-// User display + logout logic
 const userDisplay = document.getElementById('userDisplay');
 const logoutBtn = document.getElementById('logoutBtn');
 const userName = localStorage.getItem('user_name');
