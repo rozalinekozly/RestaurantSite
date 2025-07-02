@@ -94,7 +94,7 @@
   <div class="bg-white/80 rounded shadow-lg p-6 text-center">
     <h3 class="text-xl md:text-2xl font-semibold text-[#4b3d2d] mb-2">Join Our Membership</h3>
     <p class="text-sm text-gray-700 mb-4">Receive updates, exclusive discounts, and more. Be part of our Rosmarino family and enjoy the freshest offers directly from our kitchen to your table.</p>
-    <button class="px-4 py-2 bg-[#8A784E] text-white rounded hover:bg-[#2D4F2B] transition">Join Now</button>
+    <a href="signup.html" class="px-4 py-2 bg-[#8A784E] text-white rounded hover:bg-[#2D4F2B] transition inline-block">Join Now</a>
   </div>
 </section>
 
@@ -112,16 +112,12 @@
 <script>
 const name = localStorage.getItem('user_name');
 const logoutBtn = document.getElementById('logoutBtn');
-const userDisplay = document.createElement('div');
+const userDisplay = document.getElementById('userDisplay');
 
 if (name) {
   document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
   logoutBtn.classList.remove('hidden');
-
   userDisplay.textContent = `👤 ${name}`;
-  userDisplay.className = "text-sm text-[#4b3d2d] font-semibold";
-  const navbar = document.querySelector('nav');
-  navbar.insertBefore(userDisplay, navbar.firstChild);
 }
 
 logoutBtn.addEventListener('click', () => {
