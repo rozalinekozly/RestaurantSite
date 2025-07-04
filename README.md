@@ -1,9 +1,9 @@
-# Rosmarino – Italian Restaurant Website
+## Rosmarino – Italian Restaurant Website
 
 A clean and elegant static website for an Italian restaurant, built using HTML, CSS, and TailwindCSS. It includes a responsive layout, daily specials, and reservation options.
 
 <p align="center">
-  <img src="images/Screenshot 2025-07-01 233513.png" width="600" alt="Website Preview"/>
+  <img src="images/screenshotDesktop.png" width="600" alt="Website Preview"/>
 </p>
 
 ## Features
@@ -11,3 +11,27 @@ A clean and elegant static website for an Italian restaurant, built using HTML, 
 - Chef section and daily special
 - Organized food menu
 - Reservation and membership calls-to-action
+
+## Phone view
+- icon:
+  <p align="center">
+  <img src="images/iconsOnIphone.jpg" width="600" alt="icon view on apple devices"/>
+</p>
+
+<p align="center">
+  <img src="images/screenshot1.jpg" width="200"/>
+  <img src="images/screenshot2.jpg" width="200"/>
+  <img src="images/screenshot3.jpg" width="200"/>
+  <img src="images/screenshot4.jpg" width="200"/>
+</p>
+
+### desktop application view
+<p align="center">
+  <img src="images/screenshotDesktop.png" width="600" alt="Website Preview"/>
+</p>
+
+
+
+
+
+
