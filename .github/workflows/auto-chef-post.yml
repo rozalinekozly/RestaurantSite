@@ -2,7 +2,7 @@ name: Automated Chef Post
 
 on:
   schedule:
-    - cron: '* * * * *' # Runs every 1 minute
+    - cron: '* * * * *' # Runs every 1 minute for testing
   workflow_dispatch: # Allows manual triggering
 
 jobs:
@@ -17,6 +17,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
 
       - name: Run Chef Post Generator
         run: node scripts/generateChefPost.js
