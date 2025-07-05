@@ -3,7 +3,7 @@ name: Automated Chef Post
 
 on:
   schedule:
-    - cron: '* * * * *' # Runs every 1 minute for testing
+       - cron: '0 8 * * *' # Runs daily at 8 AM UTC
   workflow_dispatch: # Allows manual triggering
 
 jobs:
