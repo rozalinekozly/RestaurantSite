@@ -1,0 +1,26 @@
+name: Automated Chef Post
+
+on:
+  schedule:
+    - cron: '* * * * *' # Runs every 1 minute
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  generate-chef-post:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run Chef Post Generator
+        run: node scripts/generateChefPost.js
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
