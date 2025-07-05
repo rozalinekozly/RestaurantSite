@@ -1,3 +1,4 @@
+# Force GitHub Actions cron recognition
 name: Automated Chef Post
 
 on:
