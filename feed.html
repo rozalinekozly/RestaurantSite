@@ -10,7 +10,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
 </head>
 
-<body class="min-h-screen flex flex-col font-serif relative overflow-x-hidden">
+<body class="min-h-screen flex flex-col font-serif relative overflow-x-hidden bg-black">
 
 <!-- Full-page background video -->
 <video autoplay muted loop playsinline class="fixed inset-0 w-full h-full object-cover z-[-2]">
@@ -19,7 +19,7 @@
 </video>
 
 <!-- Static blur overlay for warm aesthetic -->
-<div class="fixed inset-0 bg-black/20 backdrop-blur-[4px] z-[-1] pointer-events-none"></div>
+<div class="fixed inset-0 bg-black/30 backdrop-blur-[4px] z-[-1] pointer-events-none"></div>
 
 <!-- Navbar -->
 <nav class="relative z-10 flex flex-wrap justify-between items-center px-4 py-3">
@@ -34,14 +34,14 @@
   </div>
 </nav>
 
-<!-- Main Content -->
+<!-- Main Feed Container -->
 <main class="flex-grow overflow-y-auto">
-  <section id="feed" class="relative z-10 max-w-6xl mx-auto py-10 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+  <section id="feed" class="relative z-10 max-w-md w-full mx-auto py-10 px-4 flex flex-col gap-6 items-center">
     <!-- Posts will dynamically appear here -->
   </section>
 </main>
 
-<!-- User Display and Supabase Feed Loader -->
+<!-- User Display and Supabase Loader -->
 <script>
 document.addEventListener('DOMContentLoaded', () => {
   const userDisplay = document.getElementById('userDisplay');
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const feedContainer = document.getElementById('feed');
 
   async function loadPosts() {
-    feedContainer.innerHTML = '<p class="text-center text-white/80 col-span-full">Loading posts...</p>';
+    feedContainer.innerHTML = '<p class="text-center text-white/80">Loading posts...</p>';
 
     const { data: posts, error } = await supabase
       .from('chef_posts')
@@ -81,24 +81,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (error) {
       console.error('Error fetching posts:', error);
-      feedContainer.innerHTML = '<p class="text-center text-red-300 col-span-full">Error loading posts.</p>';
+      feedContainer.innerHTML = '<p class="text-center text-red-300">Error loading posts.</p>';
       return;
     }
 
     if (!posts || posts.length === 0) {
-      feedContainer.innerHTML = '<p class="text-center text-white/80 col-span-full">No posts yet. Check back later!</p>';
+      feedContainer.innerHTML = '<p class="text-center text-white/80">No posts yet. Check back later!</p>';
       return;
     }
 
-    feedContainer.innerHTML = ''; // clear loader
+    feedContainer.innerHTML = '';
 
     posts.forEach(post => {
       const postElement = document.createElement('div');
-      postElement.className = 'bg-[#fdf7f0]/80 p-4 rounded-lg shadow-xl flex flex-col items-center text-center border border-[#e2d6c5] w-full max-w-xs';
+      postElement.className = 'bg-[#fdf7f0]/90 p-4 rounded-xl shadow-xl flex flex-col items-center text-center border border-[#e2d6c5] w-full';
 
       postElement.innerHTML = `
         <img src="${post.image_url}" alt="Chef Post"
-          class="w-full aspect-square object-cover rounded-md border border-[#d2c5b5] mb-4"
+          class="w-full max-w-xs aspect-square object-cover rounded-lg border border-[#d2c5b5] mb-4"
           onerror="this.src='images/placeholder.jpg';">
         <h3 class="text-lg font-semibold text-[#4b3d2d]">${post.chef_name}</h3>
         <p class="text-sm text-[#4b3d2d]/80 mt-1">${post.caption}</p>
