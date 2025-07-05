@@ -1,4 +1,4 @@
-import 'dotenv/config';
+
 import OpenAI from 'openai';
 import { createClient } from '@supabase/supabase-js';
 import fetch from 'node-fetch';
