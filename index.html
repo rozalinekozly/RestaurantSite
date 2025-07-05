@@ -6,110 +6,56 @@
   <title>Rosmarino | Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
-
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 
-<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
+<body class="min-h-screen flex flex-col font-serif relative overflow-hidden">
 
-<!-- Background Blur Overlay -->
-<div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
+<!-- Full-page background video -->
+<video autoplay muted loop playsinline class="fixed inset-0 w-full h-full object-cover z-[-2]">
+  <source src="pastaMaking.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
 
-<!-- Navbar -->
-<nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
-  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
+<!-- Navbar (transparent) -->
+<nav class="relative z-10 flex flex-wrap justify-between items-center px-4 py-3">
+  <div id="userDisplay" class="text-sm text-white font-semibold flex items-center gap-1"></div>
   <div class="flex gap-3 flex-wrap items-center">
-    <a href="index.html" class="text-sm hover:underline">Home</a>
-    <a href="login.html" class="text-sm hover:underline">Login</a>
-    <a href="menu.html" class="text-sm hover:underline">Menu</a>
-    <a href="feed.html" class="text-sm hover:underline">Feed</a>
-    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
-    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
+    <a href="index.html" class="text-sm text-white hover:underline">Home</a>
+    <a href="login.html" class="text-sm text-white hover:underline">Login</a>
+    <a href="menu.html" class="text-sm text-white hover:underline">Menu</a>
+    <a href="feed.html" class="text-sm text-white hover:underline">Feed</a>
+    <a href="guestOpinion.html" class="text-sm text-white hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm text-white hover:underline">Logout</button>
   </div>
 </nav>
 
-<!-- Main Content -->
-<main class="flex-grow">
+<!-- Main Content (center hero, no scroll) -->
+<main class="flex-grow flex items-center justify-center">
+  <section class="relative z-10 text-center px-4">
+    <h1 class="text-5xl md:text-7xl font-extrabold text-white drop-shadow-lg">Rosmarino</h1>
+    <p class="text-lg md:text-2xl mt-2 text-white drop-shadow-md">Authentic taste, lovingly prepared</p>
+  </section>
 
-<!-- Greeting -->
-<section class="relative z-10 text-center mt-4">
-  <h2 id="greeting" class="text-xl text-[#7c5a3c]"></h2>
-</section>
+<!--
+Notes: Hidden sections for future use
 
-<!-- Hero Section -->
-<section class="relative z-10 text-center py-12 px-4">
-  <h1 class="text-4xl md:text-6xl font-bold text-[#4b3d2d]">Rosmarino</h1>
-  <p class="text-lg md:text-xl mt-2 text-[#4b3d2d]">Authentic taste, lovingly prepared</p>
-</section>
-
-<!-- Chefs Section -->
-<section class="relative z-10 max-w-4xl mx-auto py-8 px-4 flex flex-wrap justify-center gap-6">
-  <div class="flex flex-col items-center">
-    <img src="../images/chefs/chef4.jpg" alt="Gordon" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover object-top border-4 border-[#8A784E]">
-    <p class="mt-2 text-[#4b3d2d] font-semibold">Gordon Ramsay</p>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="../images/chefs/chef5.jpg" alt="Asaf" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover border-4 border-[#8A784E]">
-    <p class="mt-2 text-[#4b3d2d] font-semibold">Asaf Granit</p>
-  </div>
-  <div class="flex flex-col items-center">
-    <img src="../images/chefs/chef6.jpg" alt="Aharoni" class="w-28 h-28 md:w-32 md:h-32 rounded-full object-cover object-top border-4 border-[#8A784E]">
-    <p class="mt-2 text-[#4b3d2d] font-semibold">Aharoni</p>
-  </div>
-</section>
-
-<!-- Featured Sections -->
 <section class="relative z-10 max-w-6xl mx-auto py-8 px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-
-  <!-- Today's Special -->
-  <div class="bg-white/80 rounded shadow-lg p-4 text-center">
-    <img src="../images/food/specialOfTheDay.jpg" alt="Special" class="w-full h-48 object-cover rounded mb-2">
-    <h3 class="text-lg font-semibold text-[#4b3d2d]">Today's Special</h3>
-    <p class="text-sm text-gray-700">Fresh, seasonal dish crafted by our chefs with local ingredients.</p>
-    <p class="text-md font-bold text-[#7c5a3c] mt-1">₪189</p>
-  </div>
-
-  <!-- Reserve a Table -->
-  <div class="relative rounded shadow-lg overflow-hidden">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../images/ambiance/reserveTable1.jpg');"></div>
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="relative z-10 p-4 flex flex-col items-center text-center text-[#e7cba9]">
-      <h3 class="text-lg font-semibold">Reserve a Table</h3>
-      <p class="text-sm">Book your cozy spot in our warm atmosphere with ease online.</p>
-      <button class="mt-2 px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Reserve</button>
-    </div>
-  </div>
-
-  <!-- Home Delivery -->
-  <div class="relative rounded shadow-lg overflow-hidden">
-    <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('../images/ambiance/homeDelivary1.jpg');"></div>
-    <div class="absolute inset-0 bg-black/40"></div>
-    <div class="relative z-10 p-4 flex flex-col items-center text-center text-[#e7cba9]">
-      <h3 class="text-lg font-semibold">Home Delivery</h3>
-      <p class="text-sm">Enjoy Rosmarino’s taste from home with our efficient delivery service.</p>
-      <button class="mt-2 px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#2D4F2B] transition">Order Now</button>
-    </div>
-  </div>
+  ...
 </section>
 
-<!-- Join Membership -->
 <section class="relative z-10 max-w-6xl mx-auto py-8 px-4">
-  <div class="bg-white/80 rounded shadow-lg p-6 text-center">
-    <h3 class="text-xl md:text-2xl font-semibold text-[#4b3d2d] mb-2">Join Our Membership</h3>
-    <p class="text-sm text-gray-700 mb-4">Receive updates, exclusive discounts, and more. Be part of our Rosmarino family and enjoy the freshest offers directly from our kitchen to your table.</p>
-    <a href="signup.html" class="px-4 py-2 bg-[#8A784E] text-white rounded hover:bg-[#2D4F2B] transition inline-block">Join Now</a>
-  </div>
+  ...
 </section>
+-->
 
-</main>
-
-<!-- Footer -->
+<!--
+Footer:
 <footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
-  <div class="flex flex-wrap justify-center gap-6">
-    <a href="#" class="hover:underline">Follow us</a>
-    <a href="#" class="hover:underline">Contact us</a>
-  </div>
+  ...
 </footer>
+-->
+</main>
 
 <!-- Greeting and Logout Logic -->
 <script>
@@ -118,9 +64,13 @@ const logoutBtn = document.getElementById('logoutBtn');
 const userDisplay = document.getElementById('userDisplay');
 
 if (name) {
-  document.getElementById('greeting').textContent = `Hello, ${name}! Welcome back to Rosmarino.`;
   logoutBtn.classList.remove('hidden');
-  userDisplay.textContent = `👤 ${name}`;
+  userDisplay.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8 8 0 0112 4a8 8 0 016.879 13.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+    <span>${name}</span>
+  `;
 }
 
 logoutBtn.addEventListener('click', () => {
@@ -128,14 +78,16 @@ logoutBtn.addEventListener('click', () => {
   location.reload();
 });
 </script>
+
+<!-- Service Worker -->
 <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(reg => console.log('Service Worker registered.', reg))
-        .catch(err => console.error('Service Worker registration failed:', err));
-    });
-  }
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('Service Worker registered.', reg))
+      .catch(err => console.error('Service Worker registration failed:', err));
+  });
+}
 </script>
 
 </body>

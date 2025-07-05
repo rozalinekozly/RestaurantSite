@@ -1,28 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Our Guests | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
-   <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
-<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
 
-<!-- Background Blur Overlay -->
-<div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
+<body class="min-h-screen flex flex-col font-serif relative overflow-x-hidden">
+
+<!-- Full-page background video -->
+<video autoplay muted loop playsinline class="fixed inset-0 w-full h-full object-cover z-[-2]">
+  <source src="guests.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+<!-- Blurring overlay that increases blur on scroll -->
+<div id="blurOverlay" class="fixed inset-0 bg-black/20 backdrop-blur-[2px] z-[-1] pointer-events-none transition duration-300 ease-in-out"></div>
 
 <!-- Navbar -->
-<nav class="relative z-10 flex justify-between items-center bg-white/80 shadow px-4 py-3">
-  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
+<nav class="relative z-10 flex flex-wrap justify-between items-center px-4 py-3">
+  <div id="userDisplay" class="text-sm text-white font-semibold flex items-center gap-1"></div>
   <div class="flex gap-3 flex-wrap items-center">
-    <a href="index.html" class="text-sm hover:underline">Home</a>
-    <a href="login.html" class="text-sm hover:underline">Login</a>
-    <a href="menu.html" class="text-sm hover:underline">Menu</a>
-    <a href="feed.html" class="text-sm hover:underline">Feed</a>
-    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
-    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
+    <a href="index.html" class="text-sm text-white hover:underline">Home</a>
+    <a href="login.html" class="text-sm text-white hover:underline">Login</a>
+    <a href="menu.html" class="text-sm text-white hover:underline">Menu</a>
+    <a href="feed.html" class="text-sm text-white hover:underline">Feed</a>
+    <a href="guestOpinion.html" class="text-sm text-white hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm text-white hover:underline">Logout</button>
   </div>
 </nav>
 
@@ -30,29 +37,24 @@
 <main class="flex-grow flex flex-col items-center justify-start px-4 relative z-10">
 
   <!-- Add Opinion Button -->
-  <button id="addOpinionBtn" class="mt-8 text-5xl text-[#8A784E] hover:text-[#594100] transition transform hover:scale-110">+</button>
+  <button id="addOpinionBtn" class="mt-8 text-5xl text-white hover:text-[#d1c0a8] transition">+</button>
 
-  <!-- Opinion Input (hidden initially) -->
-  <div id="opinionInputContainer" class="hidden mt-4 w-full max-w-md">
+  <!-- Opinion Input -->
+  <div id="opinionInputContainer" class="hidden mt-4 w-full max-w-md flex flex-col gap-2">
     <textarea id="opinionInput" rows="3" placeholder="Share your opinion..."
-      class="w-full px-4 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]"></textarea>
-    <button id="submitOpinionBtn" class="mt-2 w-full bg-[#8A784E] text-white py-2 rounded hover:bg-[#594100] transition">Submit Opinion</button>
+      class="w-full px-4 py-2 rounded-lg backdrop-blur bg-white/20 border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-[#8A784E]"></textarea>
+    <button id="submitOpinionBtn"
+      class="w-full px-4 py-2 rounded-lg backdrop-blur bg-white/20 border border-white/30 text-white font-semibold hover:bg-[#2D4F2B] hover:text-white transition">
+      Submit Opinion
+    </button>
   </div>
 
   <!-- Guests Opinions Section -->
   <section class="relative z-10 max-w-3xl mx-auto py-10 px-4 text-center">
-    <h2 class="text-3xl font-semibold text-[#4b3d2d] mb-6">Our Guests</h2>
-    <div id="opinionsContainer" class="flex flex-col gap-4"></div>
+    <h2 class="text-3xl font-extrabold text-white drop-shadow mb-6">Our Guests</h2>
+    <div id="opinionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full"></div>
   </section>
 </main>
-
-<!-- Footer -->
-<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
-  <div class="flex flex-wrap justify-center gap-6">
-    <a href="#" class="hover:underline">Follow us</a>
-    <a href="#" class="hover:underline">Contact us</a>
-  </div>
-</footer>
 
 <script type="module">
 import { supabase } from '../JS/db.js';
@@ -64,18 +66,31 @@ const submitOpinionBtn = document.getElementById('submitOpinionBtn');
 const opinionsContainer = document.getElementById('opinionsContainer');
 const logoutBtn = document.getElementById('logoutBtn');
 const userDisplay = document.getElementById('userDisplay');
+const blurOverlay = document.getElementById('blurOverlay');
 
 const userName = localStorage.getItem('user_name');
 
-// Show user name and logout if logged in
+// User display
 if (userName) {
-  userDisplay.textContent = `👤 ${userName}`;
   logoutBtn.classList.remove('hidden');
+  userDisplay.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8 8 0 0112 4a8 8 0 016.879 13.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+    <span>${userName}</span>
+  `;
 }
 
 logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('user_name');
   window.location.reload();
+});
+
+// Scroll-based blur increase
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const blurAmount = Math.min(8, scrollY / 50 + 2); // subtle increase
+  blurOverlay.style.backdropFilter = `blur(${blurAmount}px)`;
 });
 
 // Toggle opinion input
@@ -94,45 +109,41 @@ submitOpinionBtn.addEventListener('click', async () => {
     opinionInput.classList.add('border-red-500');
     return;
   }
-
   opinionInput.classList.remove('border-red-500');
 
-  // Check if user already posted
-  const { data: existing, error: fetchError } = await supabase
+  const { data: existing } = await supabase
     .from('opinions')
     .select('*')
     .eq('user_name', userName)
     .single();
 
   if (existing) {
-    // Update existing
-    const { error: updateError } = await supabase
+    const { error } = await supabase
       .from('opinions')
       .update({ opinion: opinionText })
       .eq('user_name', userName);
 
-    if (updateError) {
-      window.alert("❌ Failed to update your opinion.");
+    if (error) {
+      window.alert("Failed to update your opinion.");
     } else {
-      window.alert("✅ Your opinion was updated!");
+      window.alert("Your opinion was updated!");
       window.location.reload();
     }
   } else {
-    // Insert new
-    const { error: insertError } = await supabase
+    const { error } = await supabase
       .from('opinions')
       .insert([{ user_name: userName, opinion: opinionText }]);
 
-    if (insertError) {
-      window.alert("❌ Failed to add your opinion.");
+    if (error) {
+      window.alert("Failed to add your opinion.");
     } else {
-      window.alert("✅ Thank you for sharing your opinion!");
+      window.alert("Thank you for sharing your opinion!");
       window.location.reload();
     }
   }
 });
 
-// Load and display opinions
+// Load opinions
 async function loadOpinions() {
   const { data, error } = await supabase
     .from('opinions')
@@ -140,13 +151,12 @@ async function loadOpinions() {
     .order('id', { ascending: false });
 
   if (error) {
-    opinionsContainer.innerHTML = '<p class="text-red-500">Failed to load opinions.</p>';
+    opinionsContainer.innerHTML = '<p class="text-red-500 col-span-full">Failed to load opinions.</p>';
     return;
   }
 
   opinionsContainer.innerHTML = '';
 
-  // Show current user's opinion first if exists
   if (userName) {
     const userOpinion = data.find(op => op.user_name === userName);
     if (userOpinion) {
@@ -154,7 +164,6 @@ async function loadOpinions() {
     }
   }
 
-  // Show other opinions
   data.forEach(op => {
     if (!userName || op.user_name !== userName) {
       opinionsContainer.appendChild(createOpinionCard(op));
@@ -162,7 +171,7 @@ async function loadOpinions() {
   });
 }
 
-// Format user display as "FirstName L."
+// Format name
 function formatName(name) {
   if (!name) return '';
   const parts = name.trim().split(/\s+/);
@@ -174,14 +183,14 @@ function formatName(name) {
 // Create opinion card
 function createOpinionCard(opinionData, isUser = false) {
   const card = document.createElement('div');
-  card.className = `bg-white/80 p-4 rounded shadow text-left ${isUser ? 'border-2 border-[#8A784E]' : ''}`;
+  card.className = `backdrop-blur-md bg-white/20 border border-white/30 rounded-xl shadow p-4 flex flex-col gap-2 text-white text-left ${isUser ? 'border-2 border-[#8A784E]' : ''}`;
 
   const opinionText = document.createElement('p');
-  opinionText.className = 'text-sm text-gray-700';
+  opinionText.className = 'text-sm';
   opinionText.textContent = `"${opinionData.opinion}"`;
 
   const author = document.createElement('p');
-  author.className = `text-xs mt-2 font-semibold ${isUser ? 'text-[#594100]' : 'text-[#4b3d2d]'}`;
+  author.className = `text-xs mt-1 font-semibold ${isUser ? 'text-[#d1c0a8]' : 'text-white/80'}`;
   author.textContent = `– ${formatName(opinionData.user_name)}`;
 
   card.appendChild(opinionText);

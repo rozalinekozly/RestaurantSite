@@ -6,98 +6,110 @@
   <title>Feed | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="manifest" href="manifest.json">
-  <script src="https://unpkg.com/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.5/dist/umd/supabase.min.js"></script>
 </head>
 
-<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
+<body class="min-h-screen flex flex-col font-serif relative overflow-x-hidden">
 
-<!-- Background Blur Overlay -->
-<div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
+<!-- Full-page background video -->
+<video autoplay muted loop playsinline class="fixed inset-0 w-full h-full object-cover z-[-2]">
+  <source src="cookingVid7.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+<!-- Static blur overlay for warm aesthetic -->
+<div class="fixed inset-0 bg-black/20 backdrop-blur-[4px] z-[-1] pointer-events-none"></div>
 
 <!-- Navbar -->
-<nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
-  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
+<nav class="relative z-10 flex flex-wrap justify-between items-center px-4 py-3">
+  <div id="userDisplay" class="text-sm text-white font-semibold flex items-center gap-1"></div>
   <div class="flex gap-3 flex-wrap items-center">
-    <a href="index.html" class="text-sm hover:underline">Home</a>
-    <a href="login.html" class="text-sm hover:underline">Login</a>
-    <a href="menu.html" class="text-sm hover:underline">Menu</a>
-    <a href="feed.html" class="text-sm hover:underline">Feed</a>
-    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
-    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
+    <a href="index.html" class="text-sm text-white hover:underline">Home</a>
+    <a href="login.html" class="text-sm text-white hover:underline">Login</a>
+    <a href="menu.html" class="text-sm text-white hover:underline">Menu</a>
+    <a href="feed.html" class="text-sm text-white hover:underline">Feed</a>
+    <a href="guestOpinion.html" class="text-sm text-white hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm text-white hover:underline">Logout</button>
   </div>
 </nav>
 
 <!-- Main Content -->
-<main class="flex-grow">
-<section id="feed" class="relative z-10 max-w-3xl mx-auto py-10 px-4 flex flex-col gap-10">
-  <!-- Dynamic posts will appear here -->
-</section>
+<main class="flex-grow overflow-y-auto">
+  <section id="feed" class="relative z-10 max-w-6xl mx-auto py-10 px-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+    <!-- Posts will dynamically appear here -->
+  </section>
 </main>
 
-<!-- Footer -->
-<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
-  <div class="flex flex-wrap justify-center gap-6">
-    <a href="#" class="hover:underline">Follow us</a>
-    <a href="#" class="hover:underline">Contact us</a>
-  </div>
-</footer>
-
+<!-- User Display and Supabase Feed Loader -->
 <script>
-// User display + logout logic
-const userDisplay = document.getElementById('userDisplay');
-const logoutBtn = document.getElementById('logoutBtn');
-const userName = localStorage.getItem('user_name');
+document.addEventListener('DOMContentLoaded', () => {
+  const userDisplay = document.getElementById('userDisplay');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const userName = localStorage.getItem('user_name');
 
-if (userName) {
-  userDisplay.textContent = `👤 ${userName}`;
-  logoutBtn.classList.remove('hidden');
-}
-
-logoutBtn.addEventListener('click', () => {
-  localStorage.removeItem('user_name');
-  window.location.reload();
-});
-
-// Supabase dynamic fetch
-const supabaseUrl = 'https://ldignxlbttqoqcvoycbj.supabase.co'; 
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII'; 
-const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-const feedContainer = document.getElementById('feed');
-
-async function loadPosts() {
-  const { data: posts, error } = await supabase
-    .from('chef_posts')
-    .select('*')
-    .order('created_at', { ascending: false })
-    .limit(20);
-
-  if (error) {
-    console.error('Error fetching posts:', error);
-    feedContainer.innerHTML = '<p class="text-center text-gray-600">Error loading posts.</p>';
-    return;
-  }
-
-  if (!posts || posts.length === 0) {
-    feedContainer.innerHTML = '<p class="text-center text-gray-600">No posts yet. Check back later!</p>';
-    return;
-  }
-
-  posts.forEach(post => {
-    const postElement = document.createElement('div');
-    postElement.className = 'bg-white/80 p-4 rounded shadow flex flex-col items-center text-center';
-
-    postElement.innerHTML = `
-      <img src="${post.image_url}" alt="Chef Post" class="w-full max-w-sm h-60 object-cover rounded mb-4">
-      <h3 class="text-lg font-semibold text-[#4b3d2d]">${post.chef_name}</h3>
-      <p class="text-sm text-gray-700 mt-1">${post.caption}</p>
+  if (userName) {
+    logoutBtn.classList.remove('hidden');
+    userDisplay.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8 8 0 0112 4a8 8 0 016.879 13.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      <span>${userName}</span>
     `;
+  }
 
-    feedContainer.appendChild(postElement);
+  logoutBtn.addEventListener('click', () => {
+    localStorage.removeItem('user_name');
+    window.location.reload();
   });
-}
 
-loadPosts();
+  const supabase = window.supabase.createClient(
+    'https://ldignxlbttqoqcvoycbj.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkaWdueGxidHRxb3Fjdm95Y2JqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTk3NDcsImV4cCI6MjA2NjQzNTc0N30.6kK3C9SI6GCqggzpf8qIPB31_PMIvs3ToPRpkjZFdII'
+  );
+
+  const feedContainer = document.getElementById('feed');
+
+  async function loadPosts() {
+    feedContainer.innerHTML = '<p class="text-center text-white/80 col-span-full">Loading posts...</p>';
+
+    const { data: posts, error } = await supabase
+      .from('chef_posts')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(20);
+
+    if (error) {
+      console.error('Error fetching posts:', error);
+      feedContainer.innerHTML = '<p class="text-center text-red-300 col-span-full">Error loading posts.</p>';
+      return;
+    }
+
+    if (!posts || posts.length === 0) {
+      feedContainer.innerHTML = '<p class="text-center text-white/80 col-span-full">No posts yet. Check back later!</p>';
+      return;
+    }
+
+    feedContainer.innerHTML = ''; // clear loader
+
+    posts.forEach(post => {
+      const postElement = document.createElement('div');
+      postElement.className = 'bg-[#fdf7f0]/80 p-4 rounded-lg shadow-xl flex flex-col items-center text-center border border-[#e2d6c5] w-full max-w-xs';
+
+      postElement.innerHTML = `
+        <img src="${post.image_url}" alt="Chef Post"
+          class="w-full aspect-square object-cover rounded-md border border-[#d2c5b5] mb-4"
+          onerror="this.src='images/placeholder.jpg';">
+        <h3 class="text-lg font-semibold text-[#4b3d2d]">${post.chef_name}</h3>
+        <p class="text-sm text-[#4b3d2d]/80 mt-1">${post.caption}</p>
+      `;
+
+      feedContainer.appendChild(postElement);
+    });
+  }
+
+  loadPosts();
+});
 </script>
 
 </body>

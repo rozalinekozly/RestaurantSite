@@ -6,61 +6,78 @@
   <title>Login | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="manifest" href="manifest.json">
-
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
 </head>
 
-<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
+<body class="min-h-screen flex flex-col font-serif relative overflow-hidden">
 
-<!-- Background Blur Overlay -->
-<div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
+<!--  video tag with: -->
+<video autoplay muted loop playsinline class="fixed inset-0 w-full h-full object-cover z-[-2]">
+  <source src="cookingVid2.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
 
-<!-- Navbar -->
-<nav class="relative z-10 flex justify-between items-center bg-white/80 shadow px-4 py-3">
-  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
+<!-- Add this below the video for scroll blur: -->
+<div id="blurOverlay" class="fixed inset-0 bg-black/0 backdrop-blur-[0px] z-[-1] pointer-events-none transition duration-300"></div>
+
+<!-- Add this script at the end before </body>: -->
+<script>
+const blurOverlay = document.getElementById('blurOverlay');
+window.addEventListener('scroll', () => {
+  const blur = Math.min(8, window.scrollY / 100);
+  blurOverlay.style.backdropFilter = `blur(${blur}px)`;
+});
+</script>
+
+
+<!-- Navbar (transparent words only) -->
+<nav class="relative z-10 flex justify-between items-center px-4 py-3">
+  <div id="userDisplay" class="text-sm text-white font-semibold"></div>
   <div class="flex gap-3 flex-wrap items-center">
-    <a href="index.html" class="text-sm hover:underline">Home</a>
-    <a href="login.html" class="text-sm hover:underline">Login</a>
-    <a href="menu.html" class="text-sm hover:underline">Menu</a>
-    <a href="feed.html" class="text-sm hover:underline">Feed</a>
-    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
-    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
+    <a href="index.html" class="text-sm text-white hover:underline">Home</a>
+    <a href="login.html" class="text-sm text-white hover:underline">Login</a>
+    <a href="menu.html" class="text-sm text-white hover:underline">Menu</a>
+    <a href="feed.html" class="text-sm text-white hover:underline">Feed</a>
+    <a href="guestOpinion.html" class="text-sm text-white hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm text-white hover:underline">Logout</button>
   </div>
 </nav>
 
 <!-- Main Content -->
 <main class="flex-grow flex items-center justify-center px-4 relative z-10">
-  <div class="bg-white/80 p-6 rounded-lg shadow-md w-full max-w-sm flex flex-col gap-4 mt-8 mb-8">
-    <h2 class="text-2xl font-semibold text-center text-[#4b3d2d]">Login</h2>
+  <div class="backdrop-blur-md bg-white/20 p-6 rounded-xl shadow-lg w-full max-w-sm flex flex-col gap-4 mt-8 mb-8 border border-white/30">
+    <h2 class="text-2xl font-semibold text-center text-white drop-shadow">Login</h2>
 
     <!-- Full Name -->
     <div class="flex flex-col gap-2">
-      <label for="username" class="text-sm font-medium text-[#4b3d2d]">Full Name</label>
+      <label for="username" class="text-sm font-medium text-white">Full Name</label>
       <input type="text" id="username" placeholder="Enter your First and Last Name"
-        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E] bg-white/60 backdrop-blur placeholder-gray-700">
     </div>
 
     <!-- Password -->
     <div class="flex flex-col gap-2">
-      <label for="password" class="text-sm font-medium text-[#4b3d2d]">Password</label>
+      <label for="password" class="text-sm font-medium text-white">Password</label>
       <input type="password" id="password" placeholder="Enter your password"
-        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E]">
+        class="px-3 py-2 rounded border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#8A784E] bg-white/60 backdrop-blur placeholder-gray-700">
     </div>
 
-    <button id="loginBtn" class="bg-[#8A784E] text-white py-2 rounded hover:bg-[#594100] transition">Login</button>
+    <button id="loginBtn" class="bg-white/30 backdrop-blur py-2 rounded text-white font-semibold hover:bg-[#2D4F2B] hover:text-white transition border border-white/30">Login</button>
 
-    <p class="text-xs text-center text-[#4b3d2d]">Don't have an account?
-      <a href="signup.html" class="font-semibold underline hover:text-[#594100]">Sign Up</a>
+    <p class="text-xs text-center text-white">Don't have an account?
+      <a href="signup.html" class="font-semibold underline hover:text-[#2D4F2B]">Sign Up</a>
     </p>
   </div>
 </main>
 
-<!-- Footer -->
+<!-- Footer (optional, kept hidden as note for future use)
 <footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10 mt-auto">
   <div class="flex flex-wrap justify-center gap-6">
     <a href="#" class="hover:underline">Follow us</a>
     <a href="#" class="hover:underline">Contact us</a>
   </div>
 </footer>
+-->
 
 <!-- Supabase Login Script -->
 <script type="module">
@@ -80,19 +97,20 @@ function normalizeName(name) {
 // Load user display if logged in
 const name = localStorage.getItem('user_name');
 if (name) {
-    userDisplay.textContent = `👤 ${name}`;
+    userDisplay.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5 mr-1 inline-block text-white">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8 8 0 0112 4a8 8 0 016.879 13.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+      </svg>
+      <span>${name}</span>
+    `;
     logoutBtn.classList.remove('hidden');
 }
-logoutBtn.addEventListener('click', () => {
-    localStorage.removeItem('user_name');
-    location.reload();
-});
+
 
 loginBtn.addEventListener('click', async () => {
     const fullName = usernameInput.value.trim();
     const password = passwordInput.value.trim();
 
-    // Clear previous error styles
     usernameInput.classList.remove('border-red-500');
     passwordInput.classList.remove('border-red-500');
 
@@ -139,7 +157,6 @@ loginBtn.addEventListener('click', async () => {
     }
 });
 
-// Remove red border on typing
 usernameInput.addEventListener('input', () => {
     usernameInput.classList.remove('border-red-500');
 });

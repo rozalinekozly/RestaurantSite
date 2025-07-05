@@ -2,78 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Special of the Day | Rosmarino</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="manifest" href="manifest.json">
-
 </head>
-<body class="min-h-screen flex flex-col font-serif bg-cover bg-center relative" style="background-image: url('../images/ambiance/bg1.jpg');">
 
-<!-- Background Blur Overlay -->
-<div class="absolute inset-0 bg-white/60 backdrop-blur-sm z-0"></div>
+<body class="min-h-screen flex flex-col font-serif relative overflow-x-hidden">
+
+<!-- Full-page background video -->
+<video autoplay muted loop playsinline class="fixed inset-0 w-full h-full object-cover z-[-2]">
+  <source src="cookingVid3.mp4" type="video/mp4">
+  Your browser does not support HTML5 video.
+</video>
+
+<!-- Blur overlay increases on scroll -->
+<div id="blurOverlay" class="fixed inset-0 bg-black/0 backdrop-blur-[0px] z-[-1] pointer-events-none transition duration-300"></div>
 
 <!-- Navbar -->
-<nav class="relative z-10 flex flex-wrap justify-between items-center bg-white/80 shadow px-4 py-3">
-  <div id="userDisplay" class="text-sm text-[#4b3d2d] font-semibold"></div>
+<nav class="relative z-10 flex flex-wrap justify-between items-center px-4 py-3">
+  <div id="userDisplay" class="text-sm text-white font-semibold flex items-center gap-1"></div>
   <div class="flex gap-3 flex-wrap items-center">
-    <a href="index.html" class="text-sm hover:underline">Home</a>
-    <a href="login.html" class="text-sm hover:underline">Login</a>
-    <a href="menu.html" class="text-sm hover:underline">Menu</a>
-    <a href="feed.html" class="text-sm hover:underline">Feed</a>
-    <a href="guestOpinion.html" class="text-sm hover:underline">Guests Opinion</a>
-    <button id="logoutBtn" class="hidden text-sm hover:underline">Logout</button>
+    <a href="index.html" class="text-sm text-white hover:underline">Home</a>
+    <a href="login.html" class="text-sm text-white hover:underline">Login</a>
+    <a href="menu.html" class="text-sm text-white hover:underline">Menu</a>
+    <a href="feed.html" class="text-sm text-white hover:underline">Feed</a>
+    <a href="guestOpinion.html" class="text-sm text-white hover:underline">Guests Opinion</a>
+    <button id="logoutBtn" class="hidden text-sm text-white hover:underline">Logout</button>
   </div>
 </nav>
 
 <!-- Main Content -->
-<main class="flex-grow relative z-10">
+<main class="flex-grow relative z-10 flex flex-col items-center justify-center px-4 py-12">
 
-<!-- Category Navigation -->
-<section class="max-w-6xl mx-auto py-8 px-4 text-center">
-  <div class="flex flex-wrap justify-center gap-4 mb-6">
-    <a href="menu.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Special of the Day</a>
-    <a href="starters.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Starters</a>
-    <a href="mainCourse.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Main Course</a>
-    <a href="desserts.html" class="px-3 py-1 bg-[#8A784E] text-white rounded hover:bg-[#594100] transition">Desserts</a>
+  <!-- Category Navigation -->
+  <div class="flex flex-wrap justify-center gap-4 mb-8">
+    <a href="menu.html" class="px-4 py-2 backdrop-blur bg-white/20 border border-white/30 rounded-xl text-white font-semibold hover:bg-[#2D4F2B] transition">Special of the Day</a>
+    <a href="starters.html" class="px-4 py-2 backdrop-blur bg-white/20 border border-white/30 rounded-xl text-white font-semibold hover:bg-[#2D4F2B] transition">Starters</a>
+    <a href="mainCourse.html" class="px-4 py-2 backdrop-blur bg-white/20 border border-white/30 rounded-xl text-white font-semibold hover:bg-[#2D4F2B] transition">Main Course</a>
+    <a href="desserts.html" class="px-4 py-2 backdrop-blur bg-white/20 border border-white/30 rounded-xl text-white font-semibold hover:bg-[#2D4F2B] transition">Desserts</a>
   </div>
 
-  <h2 class="text-2xl font-semibold text-[#4b3d2d] mb-4">Special of the Day</h2>
+  <h2 class="text-3xl font-extrabold text-white drop-shadow mb-6">Special of the Day</h2>
 
-  <div class="max-w-sm mx-auto">
-    <div class="bg-white/80 rounded shadow p-2">
-      <img src="../images/food/specialOfTheDay.jpg" alt="Lemon Herb Risotto" class="w-full h-64 object-cover rounded">
-      <h3 class="text-lg font-semibold mt-2 text-[#4b3d2d]">Lemon Herb Risotto</h3>
-      <p class="text-sm text-gray-700">Creamy risotto with fresh lemon zest and herbs, bringing the Amalfi coast to your table.</p>
+  <div class="max-w-sm w-full">
+    <div class="bg-[#fdf7f0]/80 rounded-lg shadow-xl p-4 text-center border border-[#e2d6c5]">
+      <img src="../images/food/specialOfTheDay.jpg" alt="Lemon Herb Risotto" class="w-full h-64 object-cover rounded-md mb-3 border border-[#d2c5b5]">
+      <h3 class="text-lg font-semibold text-[#4b3d2d]">Lemon Herb Risotto</h3>
+      <p class="text-sm text-[#4b3d2d]/80">Creamy risotto with fresh lemon zest and herbs, bringing the Amalfi coast to your table.</p>
       <p class="text-md font-bold text-[#7c5a3c] mt-1">₪189</p>
     </div>
   </div>
-</section>
-
 </main>
 
-<!-- Footer -->
-<footer class="bg-white/80 text-center text-sm text-[#4b3d2d] py-4 shadow relative z-10">
-  <div class="flex flex-wrap justify-center gap-6">
-    <a href="#" class="hover:underline">Follow us</a>
-    <a href="#" class="hover:underline">Contact us</a>
-  </div>
-</footer>
-
-<!-- User Display and Logout Script -->
 <script>
+// User display
 const userDisplay = document.getElementById('userDisplay');
 const logoutBtn = document.getElementById('logoutBtn');
-const name = localStorage.getItem('user_name');
+const userName = localStorage.getItem('user_name');
 
-if (name) {
-  userDisplay.textContent = `👤 ${name}`;
+if (userName) {
   logoutBtn.classList.remove('hidden');
+  userDisplay.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A8 8 0 0112 4a8 8 0 016.879 13.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+    <span>${userName}</span>
+  `;
 }
 
 logoutBtn.addEventListener('click', () => {
   localStorage.removeItem('user_name');
   location.reload();
+});
+
+// Blur on scroll
+const blurOverlay = document.getElementById('blurOverlay');
+window.addEventListener('scroll', () => {
+  const blur = Math.min(8, window.scrollY / 100);
+  blurOverlay.style.backdropFilter = `blur(${blur}px)`;
 });
 </script>
 
