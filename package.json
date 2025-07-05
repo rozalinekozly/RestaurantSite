@@ -1,0 +1,10 @@
+{
+  "name": "restaurant-site",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "openai": "^4.50.2",
+    "@supabase/supabase-js": "^2.42.7",
+    "node-fetch": "^3.3.2"
+  }
+}
