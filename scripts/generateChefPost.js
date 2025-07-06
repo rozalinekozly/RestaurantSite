@@ -13,14 +13,23 @@ const supabase = createClient(supabaseUrl, supabaseServiceRoleKey);
 
 const chefNames = ["Chef Luigi", "Chef Sofia", "Chef Marco", "Chef Isabella"];
 const prompts = [
-  "A cozy Italian trattoria with handmade pasta on a rustic wooden table, warm lighting, vintage decor",
-  "Fresh basil, tomatoes, and olive oil on a marble countertop in a sunlit Italian kitchen",
-  "A creamy risotto served in a cozy Italian restaurant with warm tones and rustic wooden tables",
-  "A lemon sorbet in a small Italian cafe with vintage decor and warm light",
-  "A beautifully plated tiramisu on a wooden table in a cozy Italian restaurant with warm lighting",
-  "A wood-fired pizza on a rustic table with wine glasses in an Italian trattoria, warm lighting",
-  "An espresso with biscotti on a marble table in a cozy Italian cafe with vintage cups and warm ambiance"
+
+  "A chef's counter with fresh handmade pasta being rolled on a rustic wooden table, basil and olive oil nearby, warm clean light",
+  
+  "A chef's prep stand with fresh basil, ripe tomatoes, and a bottle of olive oil on a marble counter, soft morning light in an Italian kitchen",
+  
+  "A chef stirring creamy risotto in a copper pot on a wooden stove counter, herbs and parmesan nearby, warm rustic light",
+  
+  "A chef scooping lemon sorbet into small bowls in a cozy Italian cafe kitchen, wooden counter, soft warm light",
+  
+  "A chef dusting cocoa powder over a tiramisu on a wooden counter, simple plating with a warm clean bistro light",
+  
+  "A chef sliding a wood-fired pizza into a brick oven, rustic wooden counter with fresh toppings, warm Italian trattoria light",
+  
+  "A chef pouring espresso into a vintage cup with biscotti on a marble counter, warm cozy Italian cafe ambiance"
 ];
+
+;
 
 async function downloadImage(url) {
   const response = await fetch(url);
